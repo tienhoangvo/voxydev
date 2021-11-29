@@ -9,7 +9,7 @@ const theme = (mode = 'light') =>
   createTheme({
     palette: mode === 'light' ? LightPalette : DarkPalette,
     typography: {
-      fontFamily: "'Karla', sans-serif",
+      fontFamily: "'Philosopher', sans-serif",
     },
   });
 
