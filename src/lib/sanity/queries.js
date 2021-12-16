@@ -26,13 +26,12 @@ const videoFields = `
 const commentFields = `
   _id,
   content,
-  "user": user->{_id, name, avatar},
+  user,
   article,
   _createdAt,
   createdAt,
   _updatedAt,
   repliesQuantity,
-  userData,
 `;
 
 const replyFields = `
@@ -134,7 +133,7 @@ export const getCurrentUserComments = ({
   currentUserId,
 }) =>
   `
-*[_type == "comment" && article._ref == "${articleId}" && user._ref == "${currentUserId}"] | order(_createdAt desc) {
+*[_type == "comment" && article._ref == "${articleId}" && user.ref._ref == "${currentUserId}"] | order(_createdAt desc) {
   ${commentFields}
 }`;
 
@@ -158,7 +157,7 @@ export const getPaginationCommentsByArticleId = ({
   startIndex,
   endIndex,
   currentUserId,
-}) => `*[_type == "comment" && article._ref == "${articleId}" && user._ref != "${currentUserId}"] | order(_createdAt desc) [${startIndex}..${endIndex}] {
+}) => `*[_type == "comment" && article._ref == "${articleId}" && user.ref._ref != "${currentUserId}"] | order(_createdAt desc) [${startIndex}..${endIndex}] {
     ${commentFields}
   }`;
 

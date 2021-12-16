@@ -22,13 +22,10 @@ import CommentReplies from '../CommentReplies/CommentReplies';
 import CreateReplyForm from '../../commentReplies/CreateReplyFrom/CreateReplyForm';
 
 // @src/hooks
-import useCurrentUser from '../../../hooks/useCurrentUser';
 
 const CommentItem = ({ comment }) => {
   const [repliesExpanded, setRepliesExpanded] =
     useState(false);
-
-  const { currentUser } = useCurrentUser();
 
   const onRepliesClick = () => {
     setRepliesExpanded(!repliesExpanded);
@@ -57,11 +54,11 @@ const CommentItem = ({ comment }) => {
             mr: 1,
           },
         }}
-        title={comment?.userData?.name}
+        title={comment?.user?.name}
         avatar={
           <Avatar
-            src={comment?.userData?.avatar}
-            alt={comment?.userData?.name}
+            src={comment?.user?.avatar}
+            alt={comment?.user?.name}
           />
         }
         subheader={timeAgoFormat(
@@ -117,7 +114,7 @@ const CommentItem = ({ comment }) => {
         >
           <CreateReplyForm
             commentId={comment._id}
-            repliedToUser={comment.userData}
+            repliedToUser={comment.user}
             onClose={onRepliesClose}
             articleId={comment.article._ref}
           />

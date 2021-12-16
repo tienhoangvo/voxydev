@@ -1,4 +1,5 @@
 import authenticate from '../../../src/lib/middlewares/authenticate';
+import { commmentMutations } from '../../../src/lib/sanity/mutations';
 import { writeClient } from '../../../src/lib/sanity/sanity.server';
 
 const commentsHandler = (req, res) => {
@@ -19,52 +20,42 @@ const commentsHandler = (req, res) => {
 };
 
 const createComment = async (req, res) => {
-  const { articleId, content, createdAt } = req.body;
+  const {
+    articleId,
+    content: commentContent,
+    createdAt: commentCreatedAt,
+  } = req.body;
 
-  const { _id: userId, name, avatar } = req.currentUser;
+  const {
+    _id: userId,
+    name: userName,
+    avatar: userAvatar,
+    email: userEmail,
+  } = req.currentUser;
 
   try {
-    const comment = await writeClient.create({
-      _type: 'comment',
-      user: {
-        _type: 'reference',
-        _ref: userId,
-      },
-      article: {
-        _type: 'reference',
-        _ref: articleId,
-      },
-      content,
-      createdAt,
-      repliesQuantity: 0,
-      userData: {
-        id: userId,
-        name,
-        avatar,
-      },
+    const response = await commmentMutations.createComment({
+      userId,
+      userName,
+      userAvatar,
+      userEmail,
+      articleId,
+      commentContent,
+      commentCreatedAt,
     });
 
-    await writeClient
-      .patch(articleId)
-      .setIfMissing({
-        commentsQuantity: 0,
-        comments: [],
-      })
-      .inc({
-        commentsQuantity: 1,
-      })
-      .prepend('comments', [
-        {
-          _key: comment._id,
-          _type: 'reference',
-          _ref: comment._id,
-          _weak: true,
-        },
-      ])
-      .commit();
+    const [commentData, articleData] =
+      response.data.results;
 
+    console.log('commentData', commentData);
+    console.log('articleData', articleData);
+    const comment = commentData.document;
+
+    console.log('comment', comment);
     res.status(201).json(comment);
   } catch (error) {
+    console.error(error);
+    console.dir(error);
     res.status(500).json({
       message:
         'Something went wrong when creating new comment',

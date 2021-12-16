@@ -59,11 +59,11 @@ const CurrentUserCommentItem = ({ comment }) => {
             marginRight: 1,
           },
         }}
-        title={comment?.userData?.name}
+        title={comment?.user?.name}
         avatar={
           <Avatar
-            src={comment?.userData?.avatar}
-            alt={comment?.userData?.name}
+            src={comment?.user?.avatar}
+            alt={comment?.user?.name}
           />
         }
         subheader={timeAgoFormat(
@@ -71,7 +71,7 @@ const CurrentUserCommentItem = ({ comment }) => {
         )}
         action={
           currentUser ? (
-            currentUser._id === comment.userData.id ? (
+            currentUser._id === comment.user.ref._ref ? (
               <DeleteCommentButton
                 articleId={comment.article._ref}
                 commentId={comment._id}
@@ -129,7 +129,7 @@ const CurrentUserCommentItem = ({ comment }) => {
         >
           <CreateReplyForm
             commentId={comment._id}
-            repliedToUser={comment.userData}
+            repliedToUser={comment.user}
             onClose={onRepliesClose}
             articleId={comment.article._ref}
           />
