@@ -1,5 +1,5 @@
 import authenticate from '../../../src/lib/middlewares/authenticate';
-import { commmentMutations } from '../../../src/lib/sanity/mutations';
+import { commentMutations } from '../../../src/lib/sanity/mutations';
 
 const commentsHandler = (req, res) => {
   const { method } = req;
@@ -33,7 +33,7 @@ const createComment = async (req, res) => {
   } = req.currentUser;
 
   try {
-    const response = await commmentMutations.createComment({
+    const response = await commentMutations.createComment({
       userId,
       userName,
       userAvatar,

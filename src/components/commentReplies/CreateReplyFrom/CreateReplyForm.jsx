@@ -53,7 +53,7 @@ const CreateReplyForm = ({
     const newReply = {
       content: data.content,
       commentId,
-      repliedTo: repliedToUser.id,
+      repliedTo: repliedToUser.ref._ref,
       createdAt: new Date(),
     };
 

@@ -37,14 +37,12 @@ const commentFields = `
 const replyFields = `
   _id,
   content,
-  "user": user->{_id,name,avatar},
+  user,
   comment,
-  "repliedTo": repliedTo->{_id,name,avatar},
   _createdAt,
   createdAt,
   _updatedAt,
-  userData,
-  repliedToUserData,
+  repliedToUser,
 `;
 
 const authorFields = `

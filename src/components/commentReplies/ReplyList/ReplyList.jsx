@@ -11,6 +11,7 @@ const ReplyList = ({
   commentUserId,
   articleId,
 }) => {
+  console.log(commentUserId);
   const renderedReplyItems = useMemo(() => {
     return replies.map((reply) => (
       <ReplyItem

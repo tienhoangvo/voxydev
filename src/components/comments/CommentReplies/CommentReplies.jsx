@@ -18,6 +18,8 @@ const CommentReplies = ({
     commentId,
   });
 
+  console.log('commentUserId debug', commentUserId);
+
   return (
     <Card
       elevation={0}

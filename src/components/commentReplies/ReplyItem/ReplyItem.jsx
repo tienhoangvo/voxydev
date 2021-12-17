@@ -37,6 +37,8 @@ const ReplyItem = ({ reply, commentUserId, articleId }) => {
     setCreateReplyExpanded(false);
   };
 
+  console.log('commentUserId', commentUserId);
+
   return (
     <Card
       elevation={0}
@@ -56,15 +58,15 @@ const ReplyItem = ({ reply, commentUserId, articleId }) => {
             marginRight: 1,
           },
         }}
-        title={reply?.userData?.name}
+        title={reply?.user?.name}
         avatar={
           <Avatar
             sx={{
               height: '1.5rem',
               width: '1.5rem',
             }}
-            src={reply?.userData?.avatar || '#'}
-            alt={reply?.userData?.name}
+            src={reply?.user?.avatar || '#'}
+            alt={reply?.user?.name}
           />
         }
         subheader={timeAgoFormat(
@@ -72,7 +74,7 @@ const ReplyItem = ({ reply, commentUserId, articleId }) => {
         )}
         action={
           currentUser ? (
-            currentUser._id === reply.userData.id ? (
+            currentUser._id === reply.user.ref._ref ? (
               <DeleteReplyButton
                 replyId={reply._id}
                 commentId={reply.comment._ref}
@@ -100,10 +102,11 @@ const ReplyItem = ({ reply, commentUserId, articleId }) => {
             fontSize: '12px',
           }}
         >
-          {commentUserId !== reply.repliedToUserData.id && (
+          {commentUserId ==
+          reply.repliedToUser.ref._ref ? null : (
             <Chip
               component="span"
-              label={`@${reply.repliedToUserData.name}`}
+              label={`@${reply.repliedToUser.name}`}
               size="small"
               sx={{
                 fontSize: '10px',
@@ -145,7 +148,7 @@ const ReplyItem = ({ reply, commentUserId, articleId }) => {
         >
           <CreateReplyForm
             commentId={reply.comment._ref}
-            repliedToUser={reply.userData}
+            repliedToUser={reply.user}
             onClose={onCreateReplyCancel}
             articleId={articleId}
           />

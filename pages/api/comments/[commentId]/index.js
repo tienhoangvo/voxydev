@@ -1,6 +1,6 @@
 import authenticate from '../../../../src/lib/middlewares/authenticate';
 import { writeClient } from '../../../../src/lib/sanity/sanity.server';
-import { commmentMutations } from '../../../../src/lib/sanity/mutations';
+import { commentMutations } from '../../../../src/lib/sanity/mutations';
 const commentHandler = (req, res) => {
   const { method } = req;
 
@@ -49,7 +49,7 @@ const deleteComment = async (req, res) => {
 
     console.log(articleId);
 
-    const response = await commmentMutations.deleteComment({
+    const response = await commentMutations.deleteComment({
       commentId,
       articleId,
     });

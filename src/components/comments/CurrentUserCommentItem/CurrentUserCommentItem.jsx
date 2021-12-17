@@ -136,7 +136,7 @@ const CurrentUserCommentItem = ({ comment }) => {
         </CardContent>
         <CommentReplies
           commentId={comment._id}
-          commentUserId={comment.user._id}
+          commentUserId={comment.user.ref._ref}
           articleId={comment.article._ref}
         />
       </Collapse>

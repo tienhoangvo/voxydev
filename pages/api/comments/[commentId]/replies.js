@@ -1,4 +1,5 @@
 import authenticate from '../../../../src/lib/middlewares/authenticate';
+import { replyMutations } from '../../../../src/lib/sanity/mutations';
 import { writeClient } from '../../../../src/lib/sanity/sanity.server';
 
 const repliesHandler = (req, res) => {
@@ -27,63 +28,56 @@ const createReply = async (req, res) => {
 
   const { content, createdAt, repliedTo } = req.body;
 
-  const { _id: userId } = req.currentUser;
+  console.log(req.body);
+  const {
+    _id: userId,
+    name: userName,
+    avatar: userAvatar,
+    email: userEmail,
+  } = req.currentUser;
 
   try {
     const repliedToUser = await writeClient.getDocument(
       repliedTo
     );
 
-    const reply = await writeClient.create({
-      _type: 'reply',
-      user: {
-        _type: 'reference',
-        _ref: userId,
-      },
+    console.log('repliedToUser', repliedToUser);
 
-      repliedToUserData: {
-        id: repliedToUser._id,
-        name: repliedToUser.name,
-        avatar: repliedToUser.avatar,
-      },
+    const {
+      _id: repliedToUserId,
+      name: repliedToUserName,
+      avatar: repliedToUserAvatar,
+      email: repliedToUserEmail,
+    } = repliedToUser;
 
-      userData: {
-        id: userId,
-        name: req.currentUser.name,
-        avatar: req.currentUser.avatar,
-      },
+    const response = await replyMutations.createReply({
+      commentId,
 
-      comment: {
-        _type: 'reference',
-        _ref: commentId,
-      },
-      repliedTo: {
-        _type: 'reference',
-        _ref: repliedTo,
-      },
-      content,
-      createdAt,
-      disaprroved: false,
+      userId,
+      userName,
+      userAvatar,
+      userEmail,
+
+      repliedToUserId,
+      repliedToUserName,
+      repliedToUserAvatar,
+      repliedToUserEmail,
+
+      replyContent: content,
+      replyCreatedAt: createdAt,
     });
 
-    await writeClient
-      .patch(commentId)
-      .setIfMissing({ replies: [], repliesQuantity: 0 })
-      .prepend('replies', [
-        {
-          _type: 'reference',
-          _ref: reply._id,
-          _weak: true,
-          _key: reply._id,
-        },
-      ])
-      .inc({
-        repliesQuantity: 1,
-      })
-      .commit();
+    console.log('REPLY CREATE RESPONSE', response);
 
+    const [replyData, commentData] = response.data.results;
+
+    console.log('REPLY DATA', replyData);
+
+    console.log('COMMENT DATA', commentData);
+    const reply = replyData.document;
     res.status(201).json(reply);
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message:
         'Something went wrong when creating new reply',
@@ -99,37 +93,11 @@ const deleteReply = async (req, res) => {
   const { _id: userId } = req.currentUser;
 
   try {
-    const reply = await writeClient.getDocument(replyId);
-
-    if (!reply) {
-      return res.status(404).json({
-        message: `There is no reply with the ID ${replyId}`,
-      });
-    }
-
-    if (reply.comment._ref !== commentId) {
-      return res.status(403).json({
-        message: `The reply - ${replyId} does not belong to the comment - ${commentId}`,
-      });
-    }
-
-    if (reply.user._ref !== userId) {
-      return res.status(403).json({
-        message: `The reply - ${replyId} does not belong to you`,
-      });
-    }
-
-    const deletedData = await writeClient.delete(reply._id);
-
-    const deletedReply = deletedData.results[0].document;
-
-    await writeClient
-      .patch(commentId)
-      .unset([`replies[_key=="${deletedReply._id}"]`])
-      .dec({
-        repliesQuantity: 1,
-      })
-      .commit();
+    await replyMutations.deleteReply({
+      replyId,
+      commentId,
+      userId,
+    });
 
     res.status(204).send();
   } catch (error) {

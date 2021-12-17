@@ -23,7 +23,7 @@ export const mutate = (mutations = [], params) => {
   );
 };
 
-export const commmentMutations = {
+export const commentMutations = {
   createComment: ({
     userId = '',
     userName = '',
@@ -86,6 +86,88 @@ export const commmentMutations = {
           id: articleId,
           dec: {
             commentsQuantity: 1,
+          },
+        },
+      },
+    ];
+
+    return mutate(mutations);
+  },
+};
+
+export const replyMutations = {
+  createReply: ({
+    userId = '',
+    userName = '',
+    userAvatar = '',
+    userEmail = '',
+    repliedToUserId = '',
+    repliedToUserName = '',
+    repliedToUserAvatar = '',
+    commentId = '',
+    replyContent = '',
+    replyCreatedAt = new Date(),
+  }) => {
+    const mutations = [
+      {
+        create: {
+          _type: 'reply',
+          user: {
+            ref: {
+              _type: 'reference',
+              _ref: userId,
+            },
+            email: userEmail,
+            name: userName,
+            avatar: userAvatar,
+          },
+          comment: {
+            _type: 'reference',
+            _ref: commentId,
+          },
+          content: replyContent,
+          createdAt: replyCreatedAt,
+          repliedToUser: {
+            ref: {
+              _type: 'reference',
+              _ref: repliedToUserId,
+            },
+
+            name: repliedToUserName,
+            avatar: repliedToUserAvatar,
+          },
+        },
+      },
+
+      {
+        patch: {
+          id: commentId,
+          inc: {
+            repliesQuantity: 1,
+          },
+        },
+      },
+    ];
+
+    return mutate(mutations, { returnDocuments: true });
+  },
+
+  deleteReply: ({
+    replyId = '',
+    commentId = '',
+    userId = '',
+  }) => {
+    const mutations = [
+      {
+        delete: {
+          query: `*[_type == 'reply' && _id == "${replyId}" && comment._ref == "${commentId}" && user.ref._ref == "${userId}"]`,
+        },
+      },
+      {
+        patch: {
+          id: commentId,
+          dec: {
+            repliesQuantity: 1,
           },
         },
       },
