@@ -1,6 +1,6 @@
 import authenticate from '../../../../src/lib/middlewares/authenticate';
 import { writeClient } from '../../../../src/lib/sanity/sanity.server';
-
+import { commmentMutations } from '../../../../src/lib/sanity/mutations';
 const commentHandler = (req, res) => {
   const { method } = req;
 
@@ -20,6 +20,8 @@ const commentHandler = (req, res) => {
 const deleteComment = async (req, res) => {
   const { commentId } = req.query;
 
+  console.log({ commentId });
+
   const { _id: userId } = req.currentUser;
 
   try {
@@ -27,13 +29,15 @@ const deleteComment = async (req, res) => {
       commentId
     );
 
+    console.log(comment);
+
     if (!comment) {
       return res.status(404).json({
         message: `There is no comment with ID: ${commentId}`,
       });
     }
 
-    if (comment.user._ref !== userId) {
+    if (comment.user.ref._ref !== userId) {
       return res.status(401).json({
         message: 'The comment does not belong to you!',
       });
@@ -41,27 +45,16 @@ const deleteComment = async (req, res) => {
 
     // Delete all replies
 
-    if (comment.replies && comment.replies.length > 0) {
-      const deleteRepliesData = Promise.all(
-        comment.replies.map((reply) =>
-          writeClient.delete(reply._ref)
-        )
-      );
+    const articleId = comment.article._ref;
 
-      await deleteRepliesData;
-    }
+    console.log(articleId);
 
-    const deletedData = await writeClient.delete(commentId);
+    const response = await commmentMutations.deleteComment({
+      commentId,
+      articleId,
+    });
 
-    const deletedComment = deletedData.results[0].document;
-
-    await writeClient
-      .patch(comment.article._ref)
-      .unset([`comments[_key=="${deletedComment._id}"]`])
-      .dec({
-        commentsQuantity: 1,
-      })
-      .commit();
+    console.log('🔁 RESPONSE DATA', response.data.results);
 
     return res.status(204).send();
   } catch (error) {

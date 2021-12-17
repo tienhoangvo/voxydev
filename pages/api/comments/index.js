@@ -1,6 +1,5 @@
 import authenticate from '../../../src/lib/middlewares/authenticate';
 import { commmentMutations } from '../../../src/lib/sanity/mutations';
-import { writeClient } from '../../../src/lib/sanity/sanity.server';
 
 const commentsHandler = (req, res) => {
   const { method } = req;
@@ -49,10 +48,8 @@ const createComment = async (req, res) => {
 
     console.log('commentData', commentData);
     console.log('articleData', articleData);
-    const comment = commentData.document;
 
-    console.log('comment', comment);
-    res.status(201).json(comment);
+    res.status(201).json({ _id: commentData.id });
   } catch (error) {
     console.error(error);
     console.dir(error);

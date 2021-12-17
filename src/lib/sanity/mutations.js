@@ -66,38 +66,31 @@ export const commmentMutations = {
       },
     ];
 
-    return mutate(mutations, { returnDocuments: true });
+    return mutate(mutations, { returnIds: true });
   },
 
-  deleteComment: ({ commentId = '', userId = '' }) => {
+  deleteComment: ({ commentId = '', articleId = '' }) => {
     const mutations = [
       {
         delete: {
-          query: groq`*[_type == 'reply' && comment._ref == "${commentId}"] {_id, content, user}`,
+          query: groq`*[_type == 'reply' && comment._ref == "${commentId}"]`,
         },
       },
       {
         delete: {
-          query: groq`*[_type == 'comment' && _id == "${commentId}" && user.ref._ref == "${userId}"][0] {
-            _id,
-            user,
-            content,
-            articleId,
-            createdAt
-          }`,
+          id: commentId,
         },
       },
       {
         patch: {
-          query: groq`*[_type == 'article' && _id == "${articleId}" && user.ref._ref == "${userId}"][0] {
-            _id,
-            user,
-            content,
-            articleId,
-            createdAt
-          }`,
+          id: articleId,
+          dec: {
+            commentsQuantity: 1,
+          },
         },
       },
     ];
+
+    return mutate(mutations);
   },
 };

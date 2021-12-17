@@ -60,7 +60,23 @@ const CreateCommentForm = ({ articleId }) => {
         setCreateStatus('success');
         console.log('🎇🎇 SUCCESS', comment);
         reset({ content: '' });
-        addComment(comment);
+        console.log(newComment);
+
+        const user = {
+          ref: { _ref: currentUser._id },
+          name: currentUser.name,
+          avatar: currentUser.avatar,
+          email: currentUser.email,
+        };
+
+        console.log(user);
+        addComment({
+          createdAt: newComment.createdAt,
+          content: data.content,
+          ...comment,
+          article: { _ref: articleId },
+          user,
+        });
       })
       .catch((err) => {
         console.log('💥💥 CREATEING NEW COMMENT ERROR');
