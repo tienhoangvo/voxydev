@@ -1,27 +1,20 @@
 // @props-types
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // @next
-import Head from "next/head";
-import Router from "next/router";
-
-// @mui/material
-import LinearProgress from "@mui/material/LinearProgress";
+import Head from 'next/head';
 
 // @emotion
-import { CacheProvider } from "@emotion/react";
-
-// @react
-import { useCallback, useEffect, useState } from "react";
+import { CacheProvider } from '@emotion/react';
 
 // @src/layouts
-import ThemeLayout from "../src/layouts/ThemeLayout";
+import ThemeLayout from '../src/layouts/ThemeLayout';
 
 // @src/lib
-import createEmotionCache from "../src/lib/createEmotionCache";
+import createEmotionCache from '../src/lib/createEmotionCache';
 
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -38,10 +31,15 @@ export default function MyApp({
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>My page</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>Loading - VoxyDev</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1, width=device-width"
+        />
       </Head>
-      <ThemeLayout>{getLayout(<Component {...pageProps} />)}</ThemeLayout>
+      <ThemeLayout>
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeLayout>
     </CacheProvider>
   );
 }

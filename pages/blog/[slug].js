@@ -9,6 +9,9 @@ import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
+// @mui/icons-material
+import SaveIcon from '@mui/icons-material/Save';
+
 import MainLayout from '../../src/layouts/MainLayout';
 import {
   blogSlugsQuery,
@@ -25,6 +28,8 @@ import useArticle from '../../src/hooks/useArticle';
 import useSlug from '../../src/hooks/useSlug';
 import urlFor from '../../src/lib/sanity/urlFor';
 import RelevantArticles from '../../src/components/article/RelevantArticles';
+import { useRouter } from 'next/router';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const BlogPostPageContent = () => {
   const slug = useSlug();
@@ -131,6 +136,29 @@ const BlogPostPageContent = () => {
 };
 
 const BlogPostPage = ({ fallback }) => {
+  const router = useRouter();
+
+  if (router.isFallback)
+    return (
+      <Container
+        maxWidth="sm"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <LoadingButton
+          loading
+          loadingPosition="start"
+          size="large"
+          startIcon={<SaveIcon />}
+        >
+          Loading...
+        </LoadingButton>
+      </Container>
+    );
+
   return fallback ? (
     <SWRConfig
       value={{
@@ -159,6 +187,8 @@ export const getStaticProps = async ({
   const article = await getClient(preview).fetch(
     getArticleBySlugQuery(slug)
   );
+
+  if (!article) return { notFound: true };
 
   console.log(`Succesfully fetched article slug: ${slug}`);
 

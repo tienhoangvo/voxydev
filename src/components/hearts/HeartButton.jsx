@@ -3,7 +3,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 // @mui/material
 import Tooltip from '@mui/material/Tooltip';
-import Box from '@mui/material/Box';
 
 // @mui/icons-material
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -16,44 +15,33 @@ import { useState, useMemo, useCallback } from 'react';
 import axios from 'axios';
 
 // @src/hooks
-import useCurrentUser from '../../hooks/useCurrentUser';
+
 import useArticleHearts from '../../hooks/useArticleHearts';
 
-const HeartButton = () => {
-  const {
-    heartData,
-
-    mutate: mutateHeartData,
-  } = useArticleHearts();
+const HeartButton = ({ defaultHeartData }) => {
+  const { heartData, heartStatus, mutateHeartData } =
+    useArticleHearts({ defaultHeartData });
 
   const [status, setStatus] = useState('idle');
 
-  const { currentUser } = useCurrentUser();
-
-  const hearted = useMemo(() => {
-    if (!currentUser) return false;
-    if (!heartData) return false;
-
-    return heartData.hearts
-      ? heartData.hearts.some(
-          (heart) => heart._ref === currentUser._id
-        )
-      : false;
-  }, [heartData, currentUser]);
-
   const tooltipTitle = useMemo(() => {
-    if (!currentUser) return 'Login to heart this';
+    if (heartStatus === 'blocking')
+      return 'Login to heart this';
 
-    return hearted ? 'Unheart this' : 'Heart this';
-  }, [hearted, currentUser]);
+    if (!heartStatus === 'hearted') return 'Unheart this';
+
+    return 'Heart this';
+  }, [heartStatus]);
+
+  console.log(heartStatus);
 
   const buttonIcon = useMemo(() => {
-    return hearted ? (
+    return heartStatus === 'hearted' ? (
       <FavoriteIcon />
     ) : (
       <FavoriteBorderIcon />
     );
-  }, [hearted]);
+  }, [heartStatus]);
 
   const heartArticle = () => {
     axios
@@ -77,15 +65,14 @@ const HeartButton = () => {
   };
 
   const onButtonClick = useCallback(() => {
-    if (!currentUser) return;
     setStatus('pending');
-    if (hearted) {
+    if (heartStatus === 'hearted') {
       unheartArticle();
       return;
     }
 
     heartArticle();
-  }, [hearted, heartData, currentUser]);
+  }, [heartStatus, heartData]);
 
   return (
     <Tooltip title={tooltipTitle}>

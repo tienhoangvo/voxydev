@@ -102,9 +102,11 @@ const BlogArticle = () => {
       </CardContent>
       <CardActions sx={{ justifyContent: 'flex-end' }}>
         <HeartButton
-          defaultHeartsQuantity={article?.heartsQuantity}
-          articleId={article?._id}
-          hearts={article?.hearts}
+          defaultHeartData={{
+            _id: article?._id,
+            hearts: article?.hearts,
+            heartsQuantity: article?.heartsQuantity,
+          }}
         />
 
         <ShareButton />
