@@ -31,8 +31,6 @@ const BlogArticle = () => {
 
   const { article } = useArticle({ slug });
 
-  if (!article) return null;
-
   return (
     <Card
       elevation={0}
@@ -102,11 +100,8 @@ const BlogArticle = () => {
       </CardContent>
       <CardActions sx={{ justifyContent: 'flex-end' }}>
         <HeartButton
-          defaultHeartData={{
-            _id: article?._id,
-            hearts: article?.hearts,
-            heartsQuantity: article?.heartsQuantity,
-          }}
+          articleId={article._id}
+          heartsQuantity={article.heartsQuantity}
         />
 
         <ShareButton />

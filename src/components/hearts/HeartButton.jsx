@@ -1,9 +1,6 @@
 // @mui/lab
 import LoadingButton from '@mui/lab/LoadingButton';
 
-// @mui/material
-import Tooltip from '@mui/material/Tooltip';
-
 // @mui/icons-material
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -16,77 +13,89 @@ import axios from 'axios';
 
 // @src/hooks
 
-import useArticleHearts from '../../hooks/useArticleHearts';
+import useCurrentUser from '../../hooks/useCurrentUser';
 
-const HeartButton = ({ defaultHeartData }) => {
-  const { heartData, heartStatus, mutateHeartData } =
-    useArticleHearts({ defaultHeartData });
-
+const HeartButton = ({
+  articleId = '',
+  heartsQuantity = 0,
+}) => {
+  const { currentUser, mutate } = useCurrentUser();
   const [status, setStatus] = useState('idle');
 
+  const hearted = useMemo(() => {
+    if (!currentUser) return false;
+    if (!articleId) return false;
+    if (!currentUser.favoriteArticles) return false;
+    if (!currentUser.favoriteArticles.length) return false;
+
+    console.log(
+      'Debug favoriteArticles',
+      currentUser.favoriteArticles
+    );
+    return currentUser.favoriteArticles.some(
+      (articleRef) => articleRef._ref === articleId
+    );
+  }, [articleId, currentUser]);
+
   const tooltipTitle = useMemo(() => {
-    if (heartStatus === 'blocking')
-      return 'Login to heart this';
+    if (!currentUser) return 'Login to heart this';
 
-    if (!heartStatus === 'hearted') return 'Unheart this';
-
-    return 'Heart this';
-  }, [heartStatus]);
-
-  console.log(heartStatus);
+    return hearted ? 'Unheart this' : 'Heart this';
+  }, [hearted, currentUser]);
 
   const buttonIcon = useMemo(() => {
-    return heartStatus === 'hearted' ? (
+    return hearted ? (
       <FavoriteIcon />
     ) : (
       <FavoriteBorderIcon />
     );
-  }, [heartStatus]);
+  }, [hearted]);
 
   const heartArticle = () => {
     axios
-      .post(`/api/hearts?articleId=${heartData?._id}`)
+      .post(`/api/hearts?articleId=${articleId}`)
       .then((res) => {
-        const newHeartData = res.data;
+        const user = res.data;
         setStatus('heart success');
 
-        mutateHeartData(newHeartData, false);
+        console.log('Heart success', user);
+        mutate(user);
       });
   };
   const unheartArticle = () => {
     axios
-      .delete(`/api/hearts?articleId=${heartData?._id}`)
+      .delete(`/api/hearts?articleId=${articleId}`)
       .then((res) => {
-        const newHeartData = res.data;
+        const user = res.data;
         setStatus('unheart success');
 
-        mutateHeartData(newHeartData, false);
+        console.log('Unheart success', user);
+        mutate(user);
       });
   };
 
   const onButtonClick = useCallback(() => {
     setStatus('pending');
-    if (heartStatus === 'hearted') {
+    if (hearted) {
       unheartArticle();
       return;
     }
 
     heartArticle();
-  }, [heartStatus, heartData]);
+  }, [hearted]);
 
   return (
-    <Tooltip title={tooltipTitle}>
-      <LoadingButton
-        size="small"
-        color="heart"
-        variant="outlined"
-        loading={status === 'pending'}
-        startIcon={buttonIcon}
-        onClick={onButtonClick}
-      >
-        {heartData?.heartsQuantity || 0}
-      </LoadingButton>
-    </Tooltip>
+    <LoadingButton
+      title={tooltipTitle}
+      size="small"
+      color="heart"
+      variant="outlined"
+      loading={status === 'pending'}
+      startIcon={buttonIcon}
+      onClick={onButtonClick}
+    >
+      {heartsQuantity}
+    </LoadingButton>
   );
 };
 

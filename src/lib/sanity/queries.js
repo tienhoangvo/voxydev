@@ -1,3 +1,5 @@
+import groq from 'groq';
+
 const articleFields = `
   _id,
   title,
@@ -89,10 +91,12 @@ export const getBlogBySlugQuery = () => `
   ${articleFields}
 }`;
 
-export const getFavoriteArticles = ({ currentUserId }) =>
+export const getUserFavoriteArticles = ({
+  currentUserId,
+}) =>
   currentUserId
-    ? `*[_type == "article" && count((hearts[]._ref)[@ == "${currentUserId}"]) > 0]{
-  ${articleFields}
+    ? groq`*[_type == "user" && _id == "${currentUserId}"] [0]{
+  "favoriteArticles": favoriteArticles[]->{${articleFields}} 
 }`
     : undefined;
 
@@ -101,15 +105,6 @@ export const getArticleBySlugQuery = (slug) => {
   return `*[_type == "article" && slug.current == "${slug}"] [0] {
     content[]{..., "asset": asset->},
     ${articleFields}
-  }`;
-};
-
-export const getHeartsByArticleSlug = (slug) => {
-  console.log('getHeartsByArticleSlug', slug);
-  if (!slug) return undefined;
-  return `*[_type == "article" && slug.current == "${slug}"] [0] {
-   hearts,
-   heartsQuantity,
   }`;
 };
 

@@ -159,7 +159,7 @@ const BlogPostPage = ({ fallback }) => {
       </Container>
     );
 
-  return fallback ? (
+  return (
     <SWRConfig
       value={{
         fallback,
@@ -167,8 +167,6 @@ const BlogPostPage = ({ fallback }) => {
     >
       <BlogPostPageContent />
     </SWRConfig>
-  ) : (
-    <BlogPostPageContent />
   );
 };
 

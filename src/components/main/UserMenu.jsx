@@ -33,6 +33,9 @@ const UserMenu = () => {
         <UserAvatarButton
           userAvatar={currentUser.avatar}
           userName={currentUser.name}
+          favoriteArticlesQuantity={
+            currentUser.favoriteArticlesQuantity
+          }
         />
       )}
 

@@ -176,3 +176,87 @@ export const replyMutations = {
     return mutate(mutations);
   },
 };
+export const heartArticle = ({
+  articleId = '',
+  userId = '',
+  userFavoriteArticles = [],
+  userFavoriteArticlesQuantity = 0,
+}) => {
+  const userMutations = [
+    {
+      patch: {
+        id: userId,
+        set: {
+          favoriteArticles: [
+            ...userFavoriteArticles,
+            {
+              _ref: articleId,
+              _type: 'reference',
+              _key: articleId,
+            },
+          ],
+
+          favoriteArticlesQuantity:
+            userFavoriteArticlesQuantity + 1,
+        },
+      },
+    },
+  ];
+
+  const articleMutations = [
+    {
+      patch: {
+        id: articleId,
+
+        inc: {
+          heartsQuantity: 1,
+        },
+      },
+    },
+  ];
+
+  return Promise.all([
+    mutate(userMutations, { returnDocuments: true }),
+    mutate(articleMutations),
+  ]);
+};
+
+export const unheartArticle = ({
+  articleId = '',
+  userId = '',
+  userFavoriteArticles = [],
+  userFavoriteArticlesQuantity = 0,
+}) => {
+  const userMutations = [
+    {
+      patch: {
+        id: userId,
+        set: {
+          favoriteArticles: userFavoriteArticles.filter(
+            (article) => article._ref !== articleId
+          ),
+
+          favoriteArticlesQuantity:
+            userFavoriteArticlesQuantity - 1,
+        },
+      },
+    },
+  ];
+
+  const articleMutations = [
+    {
+      patch: {
+        id: articleId,
+
+        dec: {
+          heartsQuantity: 1,
+        },
+      },
+    },
+  ];
+
+  return Promise.all([
+    mutate(userMutations, { returnDocuments: true }),
+    mutate(articleMutations),
+  ]);
+};

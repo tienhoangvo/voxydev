@@ -22,7 +22,11 @@ import Link from './../Link';
 import { DRAWER_WIDTH } from '../../constants';
 import useActivePath from '../../hooks/useActivePath';
 
-const UserAvatarButton = ({ userAvatar, userName }) => {
+const UserAvatarButton = ({
+  userAvatar,
+  userName,
+  favoriteArticlesQuantity = 0,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const activePath = useActivePath({ level: 1 });
@@ -105,7 +109,7 @@ const UserAvatarButton = ({ userAvatar, userName }) => {
           </ListItemIcon>
 
           <ListItemText
-            primary="Favorites Article"
+            primary={`(${favoriteArticlesQuantity}) favorite articles`}
             primaryTypographyProps={{ fontSize: '.875rem' }}
           />
         </ListItemButton>

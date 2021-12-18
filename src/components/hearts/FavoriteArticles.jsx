@@ -8,9 +8,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 // @swr/infininite
 import useSWR from 'swr';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { getFavoriteArticles } from '../../lib/sanity/queries';
+import { getUserFavoriteArticles } from '../../lib/sanity/queries';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -25,14 +25,20 @@ const FavoriteArticles = () => {
   const { currentUser, loading: currentUserLoading } =
     useCurrentUser();
 
-  const { data: articles, error } = useSWR(
-    getFavoriteArticles({
+  const { data, error } = useSWR(
+    getUserFavoriteArticles({
       currentUserId: currentUser?._id,
     }),
     (query) => sanityClientWithoutUseCdn.fetch(query)
   );
 
-  const loading = !articles && !error;
+  const articles = useMemo(() => {
+    if (!data) return [];
+
+    return data.favoriteArticles;
+  }, [data]);
+
+  const loading = !data && !error;
 
   useEffect(() => {
     if (currentUserLoading) return;
