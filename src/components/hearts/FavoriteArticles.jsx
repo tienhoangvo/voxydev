@@ -5,40 +5,29 @@ import CardHeader from '@mui/material/CardHeader';
 
 // @mui/icons-material
 import FavoriteIcon from '@mui/icons-material/Favorite';
-// @swr/infininite
-import useSWR from 'swr';
-
-import { useEffect, useMemo } from 'react';
-
-import { getUserFavoriteArticles } from '../../lib/sanity/queries';
-
 import LoadingButton from '@mui/lab/LoadingButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+// @next
+import router from 'next/router';
+
+// @react
+import { useEffect } from 'react';
 
 // @src/components/
 import ArticleCard from './../article/ArticleCard';
+
+import useCurrentUserFavoriteArticles from '../../hooks/useCurrentUserFavoriteArtiles';
 import useCurrentUser from '../../hooks/useCurrentUser';
-import { useRouter } from 'next/router';
-import { sanityClientWithoutUseCdn } from '../../lib/sanity/sanity.server';
 
 const FavoriteArticles = () => {
-  const router = useRouter();
   const { currentUser, loading: currentUserLoading } =
     useCurrentUser();
 
-  const { data, error } = useSWR(
-    getUserFavoriteArticles({
+  const { articles, loading, error } =
+    useCurrentUserFavoriteArticles({
       currentUserId: currentUser?._id,
-    }),
-    (query) => sanityClientWithoutUseCdn.fetch(query)
-  );
-
-  const articles = useMemo(() => {
-    if (!data) return [];
-
-    return data.favoriteArticles;
-  }, [data]);
-
-  const loading = !data && !error;
+    });
 
   useEffect(() => {
     if (currentUserLoading) return;
@@ -49,9 +38,12 @@ const FavoriteArticles = () => {
   }, [currentUser, currentUserLoading]);
 
   return (
-    <Grid container columnSpacing={3} rowSpacing={4}>
+    <Grid container rowSpacing={3}>
       <CardHeader
         title="Your favorite artiles"
+        subheader={`You hearted ${
+          currentUser?.favoriteArticlesQuantity || 0
+        } ones`}
         avatar={
           <Avatar
             sx={{
@@ -74,17 +66,22 @@ const FavoriteArticles = () => {
         </Grid>
       ))}
 
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
         <LoadingButton
-          fullWidth
           disableElevation
+          startIcon={<ExpandMoreIcon />}
+          loadingPosition="start"
           size="large"
           loading={loading}
+          disabled={articles.length > 0}
           variant="contained"
           onClick={(_) => setSize(size + 1)}
-          disabled={!loading}
         >
-          Loading...
+          Loading articles...
         </LoadingButton>
       </Grid>
 
