@@ -3,7 +3,6 @@ import {
   heartArticle,
   unheartArticle,
 } from '../../../src/lib/sanity/mutations';
-import { writeClient } from '../../../src/lib/sanity/sanity.server';
 
 const heartsHandler = (req, res) => {
   console.log(`${req.method} ${req.url}`);

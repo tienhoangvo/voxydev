@@ -1,7 +1,6 @@
 import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
-import { sanityClient } from '../sanity/sanity.server';
-import { userById } from '../sanity/queries';
+import { sanityClientWithoutUseCdn } from '../sanity/sanity.server';
 
 const authenticate = (handler) => async (req, res) => {
   const token = req.cookies.jwt;
@@ -22,9 +21,10 @@ const authenticate = (handler) => async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    const currentUser = await sanityClient.getDocument(
-      decoded.id
-    );
+    const currentUser =
+      await sanityClientWithoutUseCdn.getDocument(
+        decoded.id
+      );
 
     if (!currentUser) {
       return res.status(401).json({
