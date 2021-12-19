@@ -17,6 +17,7 @@
     "axios": "^0.21.4",
     "clsx": "latest",
     "cookie": "^0.4.1",
+    "countapi-js": "^1.0.2",
     "get-youtube-id": "^1.0.1",
     "googleapis": "^87.0.0",
     "groq": "^2.15.0",

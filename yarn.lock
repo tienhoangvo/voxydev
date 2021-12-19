@@ -1210,6 +1210,13 @@ cosmiconfig@^6.0.0:
     path-type "^4.0.0"
     yaml "^1.7.2"
 
+countapi-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/countapi-js/-/countapi-js-1.0.2.tgz#932412160ef94a81fb0568a0919fd3ab567c0cb0"
+  integrity sha512-HteIJM3mB+Um9Kwdk9tdzF6cit39crhksA2EIlg9qBpecAzU8xxG6NGxFQnDmvKtgYu9SD6u0LNiXg5FxDm8dw==
+  dependencies:
+    cross-fetch "^3.0.4"
+
 create-ecdh@^4.0.0:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.4.tgz#d6e7f4bffa66736085a0762fd3a632684dabcc4e"
@@ -1247,6 +1254,13 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cross-fetch@^3.0.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.4.tgz#9723f3a3a247bf8b89039f3a380a9244e8fa2f39"
+  integrity sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==
+  dependencies:
+    node-fetch "2.6.1"
 
 crypto-browserify@3.12.0, crypto-browserify@^3.11.0:
   version "3.12.0"

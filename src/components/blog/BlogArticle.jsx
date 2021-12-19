@@ -23,6 +23,7 @@ import useArticle from '../../hooks/useArticle';
 // @src/components
 import HeartButton from '../hearts/HeartButton';
 import ShareButton from '../share/ShareButton';
+import usePageHits from '../../hooks/usePageHits';
 
 const BlogArticle = () => {
   const { query } = useRouter();
@@ -30,6 +31,8 @@ const BlogArticle = () => {
   const { slug } = query;
 
   const { article } = useArticle({ slug });
+
+  const pageHits = usePageHits();
 
   return (
     <Card
@@ -48,12 +51,15 @@ const BlogArticle = () => {
           component: 'h1',
           variant: 'h4',
         }}
+        subheader={`${pageHits} views`}
         sx={{
           borderBottom: 1,
           borderColor: (theme) =>
             theme.palette.background.secondary,
         }}
-        subheader={timeAgoFormat(article?.publishedAt)}
+        subheader={`${pageHits} views · ${timeAgoFormat(
+          article?.publishedAt
+        )}`}
         titleTypographyProps={{
           fontSize: { xs: '1.4rem' },
         }}
