@@ -28,6 +28,7 @@ const Header = ({ onMenuClick }) => {
     >
       <HeaderToolbar>
         <IconButton
+          aria-label="Toggle Main Sidenav"
           onClick={onMenuClick}
           sx={{
             pt: 1,

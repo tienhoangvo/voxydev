@@ -1,10 +1,10 @@
 // @mui/material
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -15,7 +15,6 @@ import ExploreIcon from '@mui/icons-material/Explore';
 
 // @src/components
 import Link from '../../Link';
-import { Toolbar } from '@mui/material';
 
 const SectionCard = ({ sectionContent }) => {
   const {
@@ -24,8 +23,6 @@ const SectionCard = ({ sectionContent }) => {
     image = '',
     description = '',
     href = '/',
-    direction = 'rtl',
-    examples = [],
   } = sectionContent;
 
   const matchedSmDown = useMediaQuery((theme) =>

@@ -1,19 +1,30 @@
 // @react/
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 
 // @mui/material
-import LinearProgress from "@mui/material/LinearProgress";
+import LinearProgress from '@mui/material/LinearProgress';
 
 // @next
-import Router from "next/router";
+import Router from 'next/router';
+import * as gtag from './../../lib/googleAnalytics/gtag';
 
 const PageLoadingBar = () => {
   const [pageLoading, setPageLoading] = useState(false);
 
   useEffect(() => {
     let timerId;
-    Router.events.on("routeChangeStart", () => {
-      console.log("debug beforeHistoryChange");
+
+    const handleRouteChange = (url) => {
+      console.log('handleRouteChange', url);
+      gtag.pageview(url);
+
+      timerId = setTimeout(() => {
+        setPageLoading(false);
+      }, 300);
+    };
+
+    Router.events.on('routeChangeStart', (url) => {
+      console.log('debug beforeHistoryChange');
 
       if (timerId) {
         clearTimeout(timerId);
@@ -22,27 +33,30 @@ const PageLoadingBar = () => {
       setPageLoading(true);
     });
 
-    Router.events.on("routeChangeComplete", () => {
-      timerId = setTimeout(() => {
-        setPageLoading(false);
-      }, 300);
-    });
+    Router.events.on(
+      'routeChangeComplete',
+      handleRouteChange
+    );
 
     return () => {
       clearTimeout(timerId);
+      Router.events.off(
+        'routeChangeComplete',
+        handleRouteChange
+      );
     };
-  }, []);
+  }, [Router.events]);
 
   const renderTopLoadingBar = useCallback(() => {
     return pageLoading ? (
       <LinearProgress
         sx={{
-          position: "fixed",
+          position: 'fixed',
           zIndex: (theme) => theme.zIndex.drawer + 2,
-          width: "100%",
+          width: '100%',
 
-          ["& .MuiLinearProgress-bar"]: {
-            transition: "none",
+          ['& .MuiLinearProgress-bar']: {
+            transition: 'none',
           },
         }}
       />

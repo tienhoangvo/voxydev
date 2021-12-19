@@ -75,6 +75,8 @@ const HeartButton = ({
   };
 
   const onButtonClick = useCallback(() => {
+    if (!currentUser) return;
+
     setStatus('pending');
     if (hearted) {
       unheartArticle();
@@ -82,7 +84,7 @@ const HeartButton = ({
     }
 
     heartArticle();
-  }, [hearted]);
+  }, [hearted, currentUser]);
 
   return (
     <LoadingButton
