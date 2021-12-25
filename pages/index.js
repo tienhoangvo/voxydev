@@ -78,18 +78,18 @@ const Home = () => {
         />
       </Head>
 
-      <Container maxWidth="md">
-        <Stack spacing={5}>
-          <AuthorCard />
+      {/* <Container maxWidth="md"> */}
+      <Stack spacing={5}>
+        <AuthorCard />
 
-          {HOME_SECTIONS.map((section) => (
-            <SectionCard
-              sectionContent={section}
-              key={section.about}
-            />
-          ))}
-        </Stack>
-      </Container>
+        {HOME_SECTIONS.map((section) => (
+          <SectionCard
+            sectionContent={section}
+            key={section.about}
+          />
+        ))}
+      </Stack>
+      {/* </Container> */}
     </>
   );
 };

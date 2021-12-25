@@ -10,6 +10,7 @@ import 'highlight.js/styles/monokai.css';
 
 // @mui/material
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 
@@ -56,10 +57,16 @@ const BlockCode = ({
           mt: 0,
         }}
       >
-        <code ref={codeRef}>
+        <Box
+          component="code"
+          ref={codeRef}
+          sx={{
+            wordBreak: 'break-all',
+          }}
+        >
           {`// -- ${filename} --\n`}
           {children}
-        </code>
+        </Box>
       </CardContent>
       <CardHeader
         title={filename}
