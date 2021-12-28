@@ -14,13 +14,11 @@ import SectionCard from '../src/components/home/SectionCard/SectionCard';
 
 // @src/contants
 import { HOME_SECTIONS } from '../src/constants';
-import useOwner from '../src/hooks/useOwner';
 import sanityFetcher from '../src/lib/sanity/fetcher';
 import { getOwnerQuery } from '../src/lib/sanity/queries';
 import { SWRConfig } from 'swr';
 
 const Home = () => {
-  const { owner, error } = useOwner();
   return (
     <>
       <Head>
@@ -78,18 +76,18 @@ const Home = () => {
         />
       </Head>
 
-      {/* <Container maxWidth="md"> */}
-      <Stack spacing={5}>
-        <AuthorCard />
+      <Container maxWidth="md">
+        <Stack spacing={5}>
+          <AuthorCard />
 
-        {HOME_SECTIONS.map((section) => (
-          <SectionCard
-            sectionContent={section}
-            key={section.about}
-          />
-        ))}
-      </Stack>
-      {/* </Container> */}
+          {HOME_SECTIONS.map((section) => (
+            <SectionCard
+              sectionContent={section}
+              key={section.about}
+            />
+          ))}
+        </Stack>
+      </Container>
     </>
   );
 };

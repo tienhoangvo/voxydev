@@ -1,26 +1,32 @@
 // @mui/materials
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Box from "@mui/material/Box";
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+
+// @mui/icons-material
+import ArrowLeftOutlinedIcon from '@mui/icons-material/ArrowLeftOutlined';
+import LogoIcon from '@mui/icons-material/Whatshot';
 
 // @react
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
 // @props-types
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // @src/contants
-import { DRAWER_WIDTH, MAIN_ROUTES } from "../../constants";
+import { DRAWER_WIDTH, MAIN_ROUTES } from '../../constants';
 
 // @src/components
-import HeaderToolbar from "../HeaderToolbar";
-import Link from "../Link";
+import HeaderToolbar from '../HeaderToolbar';
+import Link from '../Link';
 
 // @src/hooks
-import useActivePath from "../../hooks/useActivePath";
+import useActivePath from '../../hooks/useActivePath';
 
 const TemporarySidenav = ({ open = true, onClose }) => {
   const activePath = useActivePath({ level: 0 });
@@ -43,15 +49,15 @@ const TemporarySidenav = ({ open = true, onClose }) => {
           noLinkStyle
           disableRipple
           sx={{
-            pl: "1.5rem",
-            pr: "1.5rem",
+            pl: '1.5rem',
+            pr: '1.5rem',
           }}
           onClick={onClose}
         >
           <ListItemIcon
             sx={{
-              mr: "1.5rem",
-              minWidth: "unset",
+              mr: '1.5rem',
+              minWidth: 'unset',
             }}
           >
             {route.icon}
@@ -61,7 +67,7 @@ const TemporarySidenav = ({ open = true, onClose }) => {
             primaryTypographyProps={{
               sx: {
                 fontWeight: 500,
-                fontSize: "0.875rem",
+                fontSize: '0.875rem',
               },
             }}
           />
@@ -77,17 +83,52 @@ const TemporarySidenav = ({ open = true, onClose }) => {
       sx={{
         width: DRAWER_WIDTH,
         flexShrink: 0,
+        zIndex: (theme) => theme.zIndex.drawer + 2,
       }}
       PaperProps={{
         sx: {
           width: DRAWER_WIDTH,
-          boxSizing: "border-box",
+          boxSizing: 'border-box',
         },
       }}
     >
-      <HeaderToolbar />
-      <Box sx={{ overflowY: "auto", overflowX: "hidden" }}>
-        <List disablePadding component={"nav"}>
+      <HeaderToolbar>
+        <IconButton
+          size="small"
+          sx={{ border: 2, borderColor: 'divider' }}
+          aria-label="Toggle Main Sidenav"
+          onClick={onClose}
+        >
+          <ArrowLeftOutlinedIcon fontSize="small" />
+        </IconButton>
+
+        <Button
+          color="inherit"
+          component={Link}
+          noLinkStyle
+          href="/"
+          size="small"
+          startIcon={
+            <LogoIcon sx={{ color: 'primary.light' }} />
+          }
+          variant="text"
+          disableElevation
+          disableRipple
+          sx={{
+            '&:focus': {
+              bgcolor: 'unset',
+            },
+            '&:hover': {
+              bgcolor: 'unset',
+            },
+            ml: 2,
+          }}
+        >
+          VoxyDev
+        </Button>
+      </HeaderToolbar>
+      <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
+        <List disablePadding component={'nav'}>
           {renderMainNavigation()}
         </List>
       </Box>

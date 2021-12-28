@@ -19,6 +19,7 @@ const MainLayout = ({ children }) => {
         sx={{
           width: '100%',
           flexGrow: 1,
+
           paddingTop: {
             xs: 2,
             sm: 2,

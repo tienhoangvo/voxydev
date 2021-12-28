@@ -30,20 +30,16 @@ const Header = ({ onMenuClick }) => {
         <IconButton
           aria-label="Toggle Main Sidenav"
           onClick={onMenuClick}
-          sx={{
-            pt: 1,
-            pr: 1,
-          }}
         >
-          <MenuIcon />
+          <MenuIcon fontSize="small" />
         </IconButton>
 
         <Button
+          size="small"
           color="inherit"
           component={Link}
           noLinkStyle
           href="/"
-          size="large"
           startIcon={
             <WhatshotIcon sx={{ color: 'primary.light' }} />
           }
@@ -57,7 +53,7 @@ const Header = ({ onMenuClick }) => {
             '&:hover': {
               bgcolor: 'unset',
             },
-            pl: '16px',
+            pl: 2,
           }}
         >
           VoxyDev

@@ -111,16 +111,17 @@ const BlogPostPageContent = () => {
       </Head>
       <Stack
         alignItems="center"
-        sx={{ width: '100%', position: 'relative' }}
+        sx={{
+          width: '100%',
+          position: 'relative',
+        }}
       >
         <Grid container spacing={{ xs: 2, sm: 0 }}>
           <Grid item sm={12} lg={8}>
             <Container maxWidth="md">
-              <Stack>
-                <BlogArticle />
+              <BlogArticle />
 
-                <BlogComments />
-              </Stack>
+              <BlogComments />
             </Container>
           </Grid>
 

@@ -48,6 +48,7 @@ const SearchButton = () => {
 
       {!matchedSMDown && (
         <Button
+          size="small"
           onClick={onSearchDialogOpen}
           variant="outlined"
           startIcon={<SearchIcon />}

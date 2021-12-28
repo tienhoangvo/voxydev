@@ -27,6 +27,7 @@ const SearchBox = ({
       onSubmit={(event) => event.preventDefault()}
     >
       <TextField
+        autoFocus
         size="small"
         variant="outlined"
         fullWidth
