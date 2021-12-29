@@ -25,6 +25,7 @@
     "javascript-time-ago": "^2.3.8",
     "jsonwebtoken": "^8.5.1",
     "next": "latest",
+    "next-pwa": "^5.4.4",
     "next-sanity": "^0.4.0",
     "prop-types": "latest",
     "react": "latest",

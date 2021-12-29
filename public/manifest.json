@@ -1,5 +1,11 @@
 {
-  "name": "VoxyDev",
+  "name": "VoxyDev - Let's make it simple",
+  "short_name": "VoxyDev",
+  "theme_color": "#556CD6",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-icon-36x36.png",
@@ -37,5 +43,6 @@
       "type": "image/png",
       "density": "4.0"
     }
-  ]
+  ],
+  "splash_pages": null
 }
