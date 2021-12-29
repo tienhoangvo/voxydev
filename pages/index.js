@@ -58,12 +58,12 @@ const Home = () => {
         <meta
           property="og:image"
           key="og:image"
-          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/HomePage.png`}
+          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/home_page.png`}
         />
         <meta
           property="og:image:secure_url"
           key="og:image:secure_url"
-          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/HomePage.png`}
+          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/home_page.png`}
         />
         <meta property="og:image:width" content="480" />
         <meta property="og:image:height" content="360" />
