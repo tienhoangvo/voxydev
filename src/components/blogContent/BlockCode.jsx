@@ -61,7 +61,7 @@ const BlockCode = ({
           component="code"
           ref={codeRef}
           sx={{
-            wordBreak: 'break-all',
+            wordBreak: 'break-word',
           }}
         >
           {`// -- ${filename} --\n`}

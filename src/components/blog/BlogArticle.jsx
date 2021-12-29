@@ -98,8 +98,10 @@ const BlogArticle = () => {
       <CardContent
         sx={{
           letterSpacing: 0,
-          p: 3,
+          p: { lg: 3 },
           overflow: 'hidden',
+          wordBreak: 'break-word',
+          fontSize: '.875rem',
         }}
       >
         <BlogContent content={article?.content} />
