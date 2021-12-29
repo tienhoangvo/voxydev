@@ -2,10 +2,7 @@ import GoogleOAuth2Client from '../../../../src/lib/auth/GoogleOAuth2Client';
 import sendAccessTokenViaCookie from '../../../../src/lib/auth/sendAccessTokenViaCookie';
 import signAccessToken from '../../../../src/lib/auth/signAccessToken';
 import cookies from '../../../../src/lib/middlewares/cookies';
-import {
-  userByGoogleId,
-  userByGoogleIdOrEmail,
-} from '../../../../src/lib/sanity/queries';
+import { userByGoogleIdOrEmail } from '../../../../src/lib/sanity/queries';
 import { writeClient } from '../../../../src/lib/sanity/sanity.server';
 
 const googleCallbackHandler = async (req, res) => {

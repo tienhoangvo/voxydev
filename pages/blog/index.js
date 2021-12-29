@@ -70,12 +70,12 @@ const BlogPage = ({ preview, firstPageData }) => {
         <meta
           property="og:image"
           key="og:image"
-          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/online_articles.png`}
+          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/BlogPage.png`}
         />
         <meta
           property="og:image:secure_url"
           key="og:image:secure_url"
-          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/online_articles.png`}
+          content={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/images/BlogPage.png`}
         />
         <meta property="og:image:width" content="480" />
         <meta property="og:image:height" content="360" />
