@@ -17,7 +17,6 @@ const Blueprint = () => {
   const matchedSmDown = useMediaQuery((theme) =>
     theme.breakpoints.down('sm')
   );
-
   const matchedMdDown = useMediaQuery((theme) =>
     theme.breakpoints.down('md')
   );
@@ -39,16 +38,14 @@ const Blueprint = () => {
     <>
       <Header onMenuClick={toggleFullSidenav} />
 
-      {matchedSmDown ? (
-        <TemporarySidenav
-          open={openTemporarySidenav}
-          onClose={closeTemporarySidenav}
-        />
-      ) : (
-        <Sidenav
-          open={matchedMdDown || openPernamentSidenav}
-        />
-      )}
+      <TemporarySidenav
+        open={openTemporarySidenav}
+        onClose={closeTemporarySidenav}
+      />
+
+      <Sidenav
+        open={matchedMdDown || openPernamentSidenav}
+      />
     </>
   );
 };

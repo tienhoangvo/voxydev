@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { SWRConfig } from 'swr';
 
 // @mui/material
-import Stack from '@mui/material/Stack';
+
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
@@ -109,29 +109,23 @@ const BlogPostPageContent = () => {
           content={article?.title}
         />
       </Head>
-      <Stack
-        alignItems="center"
+      <Container
         sx={{
-          width: '100%',
           position: 'relative',
         }}
       >
-        <Grid container spacing={{ xs: 2, sm: 0 }}>
+        <Grid container spacing={3}>
           <Grid item sm={12} lg={8}>
-            <Container maxWidth="md">
-              <BlogArticle />
+            <BlogArticle />
 
-              <BlogComments />
-            </Container>
+            <BlogComments />
           </Grid>
 
           <Grid item sm={12} lg={4}>
-            <Container>
-              <RelevantArticles />
-            </Container>
+            <RelevantArticles />
           </Grid>
         </Grid>
-      </Stack>
+      </Container>
     </>
   );
 };

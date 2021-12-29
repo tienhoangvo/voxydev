@@ -80,10 +80,11 @@ const TemporarySidenav = ({ open = true, onClose }) => {
       anchor="left"
       open={open}
       onClose={onClose}
+      ModalProps={{
+        keepMounted: true, // Better open performance on mobile.
+      }}
       sx={{
-        width: DRAWER_WIDTH,
-        flexShrink: 0,
-        zIndex: (theme) => theme.zIndex.drawer + 2,
+        display: { xs: 'block', sm: 'none' },
       }}
       PaperProps={{
         sx: {
@@ -128,7 +129,7 @@ const TemporarySidenav = ({ open = true, onClose }) => {
         </Button>
       </HeaderToolbar>
       <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
-        <List disablePadding component={'nav'}>
+        <List disablePadding component={'nav'} dense>
           {renderMainNavigation()}
         </List>
       </Box>

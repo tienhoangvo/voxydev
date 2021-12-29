@@ -1,9 +1,9 @@
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import HomeIcon from '@mui/icons-material/Home';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooksOutlined';
+import HomeIcon from '@mui/icons-material/HomeOutlined';
 
-import ArticleIcon from '@mui/icons-material/Article';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import ArticleIcon from '@mui/icons-material/ArticleOutlined';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmailOutlined';
 
 const mainRoutes = [
   {

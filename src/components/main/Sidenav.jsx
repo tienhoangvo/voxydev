@@ -78,10 +78,12 @@ const Sidenav = ({ open = true }) => {
 
   return (
     <Drawer
+      open
       variant="permanent"
       sx={{
+        display: { xs: 'none', sm: 'block' },
         width: DRAWER_WIDTH,
-        flexShrink: 0,
+
         ...(open && {
           width: '4.5rem',
         }),

@@ -21,7 +21,9 @@ const Header = ({ onMenuClick }) => {
       sx={{
         borderBottom: (theme) =>
           `2px solid ${theme.palette.divider}`,
-        zIndex: (theme) => theme.zIndex.drawer + 1,
+        zIndex: (theme) => ({
+          sm: theme.zIndex.drawer + 1,
+        }),
         overflow: 'hidden',
         width: '100%',
       }}
