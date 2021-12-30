@@ -2,7 +2,6 @@
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import { useMediaQuery } from '@mui/material';
 
 // @mui/icons-material
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -23,16 +22,11 @@ const ArticleList = ({ firstPageData = [] }) => {
     onLoadMore,
   } = useArticles({ firstPageData });
 
-  const matchedSmDown = useMediaQuery((theme) =>
-    theme.breakpoints.down('sm')
-  );
-
   return (
     <Grid container columnSpacing={3} rowSpacing={4}>
       {articlePages.map((articles) =>
         articles?.map((article) => (
           <Grid item xs={12} key={article._id}>
-            {' '}
             <ArticleCard article={article} />
           </Grid>
         ))
@@ -49,7 +43,7 @@ const ArticleList = ({ firstPageData = [] }) => {
             }}
           >
             <LoadingButton
-              fullWidth={matchedSmDown}
+              sx={{ width: { xs: '100%', md: 'inherit' } }}
               endIcon={<ExpandMoreIcon />}
               disableElevation
               size="large"

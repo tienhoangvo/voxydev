@@ -13,7 +13,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
-import { useMediaQuery } from '@mui/material';
 
 // @mui/icons-material
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -25,10 +24,6 @@ import urlFor from '../../lib/sanity/urlFor';
 import timeAgoFormat from '../../lib/utils/timeAgoFormat';
 
 const VideoListItem = ({ video }) => {
-  const matchedSmDown = useMediaQuery((theme) =>
-    theme.breakpoints.down('sm')
-  );
-
   const {
     title,
     excerpt,
@@ -40,10 +35,8 @@ const VideoListItem = ({ video }) => {
   const renderExcerpt = useCallback(() => {
     if (!excerpt) return 'No excerpt';
 
-    return matchedSmDown
-      ? sliceString({ text: excerpt, maxlength: 115 })
-      : sliceString({ text: excerpt, maxlength: 175 });
-  }, [matchedSmDown, excerpt]);
+    return sliceString({ text: excerpt, maxlength: 200 });
+  }, [excerpt]);
   return (
     <Card
       elevation={0}

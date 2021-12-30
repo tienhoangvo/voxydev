@@ -12,7 +12,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 // @src/components/
 import VideoListItem from './VideoListItem';
 import useVideos from '../../hooks/useVideos';
-import { useMediaQuery } from '@mui/material';
 
 const VideoList = ({ firstPageData = [] }) => {
   const {
@@ -22,10 +21,6 @@ const VideoList = ({ firstPageData = [] }) => {
     isReachingEnd,
     onLoadMore,
   } = useVideos({ firstPageData });
-
-  const matchedSmDown = useMediaQuery((theme) =>
-    theme.breakpoints.down('sm')
-  );
 
   return (
     <Grid container columnSpacing={3} rowSpacing={4}>
@@ -49,7 +44,9 @@ const VideoList = ({ firstPageData = [] }) => {
             }}
           >
             <LoadingButton
-              fullWidth={matchedSmDown}
+              sx={{
+                width: { xs: '100%', md: 'inherit' },
+              }}
               endIcon={<ExpandMoreIcon />}
               disableElevation
               size="large"

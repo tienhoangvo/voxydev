@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import CardActionArea from '@mui/material/CardActionArea';
 
 // @mui/icons-material
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
@@ -21,31 +22,11 @@ import Link from './../Link';
 
 // @src/lib/utils
 import timeAgoFormat from '../../lib/utils/timeAgoFormat';
-import {
-  CardActionArea,
-  Stack,
-  useMediaQuery,
-} from '@mui/material';
+
 import sliceString from '../../lib/utils/sliceString';
 import urlFor from '../../lib/sanity/urlFor';
 
 const ArticleCard = ({ article }) => {
-  const matchedSmDown = useMediaQuery((theme) =>
-    theme.breakpoints.down('sm')
-  );
-  const demoArticle = {
-    title: 'Blog Title Demo',
-    author: {
-      name: 'Tien ',
-      avatar:
-        'https://avatars.dicebear.com/api/male/tienhoangvo.svg',
-    },
-    description:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat, modi! Repellendus est tempora pariatur minima vitae illo, temporibus corrupti impedit aut sequi quidem tempore voluptatum, placeat commodi doloribus? Perferendis, doloribus.',
-    imageCover: '/images/blog-title-demo.jpeg',
-    slug: 'blog-title-demo',
-    createdAt: new Date().toString(),
-  };
   const {
     title,
     author,
@@ -53,15 +34,13 @@ const ArticleCard = ({ article }) => {
     imageCover,
     slug,
     publishedAt,
-  } = article || demoArticle;
+  } = article;
 
   const renderExcerpt = useCallback(() => {
     if (!excerpt) return 'No excerpt';
 
-    return matchedSmDown
-      ? sliceString({ text: excerpt, maxlength: 115 })
-      : sliceString({ text: excerpt, maxlength: 175 });
-  }, [matchedSmDown, excerpt]);
+    return sliceString({ text: excerpt, maxlength: 200 });
+  }, [excerpt]);
   return (
     <Card
       elevation={0}
@@ -109,99 +88,97 @@ const ArticleCard = ({ article }) => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={8} lg={8}>
-          <Stack>
-            <CardHeader
-              sx={{
-                alignItems: 'flex-start',
-                p: 1,
-              }}
-              title={
-                title.length > 60
-                  ? `${title.slice(0, 60)}...`
-                  : title
-              }
-              subheader={
-                <>
-                  <Typography
-                    variant="body2"
-                    component={'strong'}
-                    fontSize={12}
-                    fontWeight={500}
-                  >
-                    {author?.name}
-                  </Typography>
-                  <Box
-                    component="span"
-                    fontSize={20}
-                    sx={{
-                      margin: '0 4px',
-                    }}
-                  >
-                    •
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    component={'span'}
-                    fontSize={12}
-                  >
-                    {timeAgoFormat(
-                      new Date(
-                        publishedAt || new Date().toString()
-                      )
-                    )}
-                  </Typography>
-                </>
-              }
-              avatar={
-                <Avatar
-                  src={
-                    author
-                      ? urlFor(author.avatar)
-                          .height(50)
-                          .width(50)
-                          .url()
-                      : '#'
-                  }
-                  alt={author?.name || 'A'}
+          <CardHeader
+            sx={{
+              alignItems: 'flex-start',
+              p: 1,
+            }}
+            title={
+              title.length > 60
+                ? `${title.slice(0, 60)}...`
+                : title
+            }
+            subheader={
+              <>
+                <Typography
+                  variant="body2"
+                  component={'strong'}
+                  fontSize={12}
+                  fontWeight={500}
+                >
+                  {author?.name}
+                </Typography>
+                <Box
+                  component="span"
+                  fontSize={20}
                   sx={{
-                    bgcolor: (theme) =>
-                      theme.palette.background.primary,
-                    border: 3,
-                    borderColor: 'secondary.main',
+                    margin: '0 4px',
                   }}
-                />
-              }
-              titleTypographyProps={{
-                fontWeight: 700,
-              }}
-              subheaderTypographyProps={{}}
-            />
-            <CardContent sx={{ p: 1 }}>
-              <Typography
-                variant="caption"
+                >
+                  •
+                </Box>
+                <Typography
+                  variant="body2"
+                  component={'span'}
+                  fontSize={12}
+                >
+                  {timeAgoFormat(
+                    new Date(
+                      publishedAt || new Date().toString()
+                    )
+                  )}
+                </Typography>
+              </>
+            }
+            avatar={
+              <Avatar
+                src={
+                  author
+                    ? urlFor(author.avatar)
+                        .height(50)
+                        .width(50)
+                        .url()
+                    : '#'
+                }
+                alt={author?.name || 'A'}
                 sx={{
-                  color: (theme) =>
-                    theme.palette.text.secondary,
+                  bgcolor: (theme) =>
+                    theme.palette.background.primary,
+                  border: 3,
+                  borderColor: 'secondary.main',
                 }}
-              >
-                {renderExcerpt()}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                disableElevation
-                fullWidth
-                variant="contained"
-                color="secondary"
-                startIcon={<ReadMoreIcon />}
-                component={Link}
-                noLinkStyle
-                href={`/blog/${slug}`}
-              >
-                Read
-              </Button>
-            </CardActions>
-          </Stack>
+              />
+            }
+            titleTypographyProps={{
+              fontWeight: 700,
+            }}
+            subheaderTypographyProps={{}}
+          />
+          <CardContent sx={{ p: 1 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: (theme) =>
+                  theme.palette.text.secondary,
+              }}
+            >
+              {renderExcerpt()}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              disableElevation
+              fullWidth
+              variant="contained"
+              color="secondary"
+              startIcon={<ReadMoreIcon />}
+              component={Link}
+              noLinkStyle
+              href={`/blog/${slug}`}
+            >
+              Read
+            </Button>
+          </CardActions>
         </Grid>
       </Grid>
     </Card>
