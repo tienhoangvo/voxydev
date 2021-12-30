@@ -31,38 +31,35 @@ const SearchButton = () => {
 
   return (
     <>
-      {matchedSMDown && (
-        <IconButton
-          size="small"
-          onClick={onSearchDialogOpen}
-          sx={{
-            ml: 'auto',
-            mr: 1,
-            border: 2,
-            borderColor: 'divider',
-          }}
-        >
-          <SearchIcon fontSize="small" />
-        </IconButton>
-      )}
+      <IconButton
+        size="small"
+        onClick={onSearchDialogOpen}
+        sx={{
+          display: { md: 'none' },
+          ml: 'auto',
+          mr: 1,
+          border: 2,
+          borderColor: 'divider',
+        }}
+      >
+        <SearchIcon fontSize="small" />
+      </IconButton>
 
-      {!matchedSMDown && (
-        <Button
-          size="small"
-          onClick={onSearchDialogOpen}
-          variant="outlined"
-          startIcon={<SearchIcon />}
-          sx={{
-            ml: 'auto',
-            mr: 1,
-            minWidth: DRAWER_WIDTH,
-            justifyContent: 'flex-start',
-          }}
-        >
-          Search...{' '}
-        </Button>
-      )}
-
+      <Button
+        size="small"
+        onClick={onSearchDialogOpen}
+        variant="outlined"
+        startIcon={<SearchIcon />}
+        sx={{
+          display: { xs: 'none', md: 'flex' },
+          ml: 'auto',
+          mr: 1,
+          minWidth: DRAWER_WIDTH,
+          justifyContent: 'flex-start',
+        }}
+      >
+        Search...{' '}
+      </Button>
       <SearchDialog
         open={open}
         onClose={onSearchDialogClose}

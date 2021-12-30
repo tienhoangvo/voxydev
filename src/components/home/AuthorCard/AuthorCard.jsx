@@ -8,7 +8,6 @@ import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 // @mui/icons-material
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
@@ -22,29 +21,29 @@ import urlFor from '../../../lib/sanity/urlFor';
 import SocialMediaButton from '../../utils/SocialMediaButton';
 
 const AuthorCard = () => {
-  const matchedSmDown = useMediaQuery((theme) =>
-    theme.breakpoints.down('sm')
-  );
-
   const { owner } = useOwner();
 
   return (
     <Card
       elevation={0}
       sx={{
-        borderLeft: matchedSmDown ? 5 : 10,
-        p: matchedSmDown ? 2 : 3,
-        borderColor: 'primary.light',
+        borderLeftWidth: { xs: 5, md: 10 },
+        p: { xs: 2, md: 3 },
+        borderLeftStyle: 'solid',
+        borderLeftColor: 'primary.light',
         bgcolor: (theme) =>
           theme.palette.background.primary,
       }}
     >
       <CardHeader
         sx={{
-          flexDirection: matchedSmDown
-            ? 'column'
-            : 'row-reverse',
-          textAlign: matchedSmDown ? 'center' : 'left',
+          flexDirection: {
+            xs: 'column',
+            md: 'row-reverse',
+          },
+          textAlign: { xs: 'center', md: 'left' },
+          p: 0,
+          mb: { xs: 2, md: 3 },
         }}
         title={`Hi, I'm ${owner?.name}`}
         subheader={owner?.subheader}
@@ -60,50 +59,66 @@ const AuthorCard = () => {
             }
             alt={'User avatar'}
             sx={{
-              height: matchedSmDown ? '5rem' : '10rem',
-              width: matchedSmDown ? '5rem' : '10rem',
-              border: matchedSmDown ? 3 : 5,
+              height: { xs: '5rem', md: '10rem' },
+              width: { xs: '5rem', md: '10rem' },
+              borderWidth: { xs: 3, md: 5 },
+              borderStyle: 'solid',
               borderColor: 'primary.light',
               bgcolor: 'divider',
-              mb: matchedSmDown ? 1 : 0,
             }}
           />
         }
         titleTypographyProps={{
           component: 'h1',
-          variant: matchedSmDown ? 'h5' : 'h3',
+          variant: { xs: 'h5', md: 'h3' },
         }}
         subheaderTypographyProps={{
           component: 'p',
           variant: 'caption',
 
           sx: {
-            fontSize: matchedSmDown ? '1rem' : '1.1rem',
+            fontSize: { xs: '1rem', md: '1.1rem' },
           },
         }}
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          mt: 1,
+          p: 0,
+
+          ['& p']: {
+            m: 0,
+            color: 'text.primary',
+          },
+        }}
+      >
         <Grid container>
-          <Grid item xs={12} sm={10} md={10} lg={8}>
+          <Grid item xs={12} sm={12} md={10} lg={8}>
             {owner && (
               <SanityBlockContent blocks={owner.bio} />
             )}
           </Grid>
-          <Grid item xs={false} sm={2} md={2} lg={4} />
+          <Grid item xs={false} sm={false} md={2} lg={4} />
         </Grid>
       </CardContent>
       <CardActions
         sx={{
-          flexDirection: matchedSmDown ? 'column' : 'row',
+          p: 0,
+          mt: { xs: 2, md: 3 },
+
+          flexDirection: { xs: 'column', md: 'row' },
           justifyContent: 'space-between',
         }}
       >
         <Stack
           flexDirection="row"
-          justifyContent={
-            matchedSmDown ? 'space-between' : 'start'
-          }
+          gap={1}
+          justifyContent={{
+            xs: 'center',
+            md: 'start',
+          }}
           alignItems="center"
+          sx={{ width: '100%' }}
         >
           {owner?.socialMediaSites?.map((site) => (
             <SocialMediaButton
@@ -120,9 +135,9 @@ const AuthorCard = () => {
           size="large"
           variant="contained"
           disableElevation
-          fullWidth={matchedSmDown}
           sx={{
-            mt: matchedSmDown ? 1 : 0,
+            width: { xs: '100%', md: 'inherit' },
+            mt: { xs: 2, md: 0 },
             fontWeight: 'bold',
           }}
         >

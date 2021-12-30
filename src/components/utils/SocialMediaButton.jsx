@@ -13,7 +13,7 @@ const SocialMediaButton = ({
   siteName,
   username,
   profileURL,
-  fontSize = 'large',
+  fontSize = 'medium',
 }) => {
   const renderedIcon = useMemo(() => {
     if (siteName === 'Facebook')
@@ -41,6 +41,10 @@ const SocialMediaButton = ({
       color={siteName?.toLowerCase()}
       rel="noopener"
       component="a"
+      sx={{
+        border: 2,
+        borderColor: siteName?.toLowerCase(),
+      }}
       href={profileURL}
     >
       {renderedIcon}

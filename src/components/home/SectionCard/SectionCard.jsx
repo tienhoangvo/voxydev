@@ -8,7 +8,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 // @mui/icons-material
 import ExploreIcon from '@mui/icons-material/Explore';
@@ -25,20 +24,18 @@ const SectionCard = ({ sectionContent }) => {
     href = '/',
   } = sectionContent;
 
-  const matchedSmDown = useMediaQuery((theme) =>
-    theme.breakpoints.down('sm')
-  );
-
   return (
     <Card
       elevation={0}
       sx={{
-        borderLeft: matchedSmDown ? 5 : 10,
-        borderColor:
+        borderLeftWidth: { xs: 5, md: 10 },
+        p: { xs: 2, md: 3 },
+        borderLeftStyle: 'solid',
+        borderLeftColor:
           href === '/videos'
             ? 'video.main'
             : 'secondary.light',
-        p: matchedSmDown ? 2 : 3,
+
         bgcolor: (theme) =>
           href === '/videos'
             ? theme.palette.background.video
@@ -46,34 +43,44 @@ const SectionCard = ({ sectionContent }) => {
       }}
     >
       <CardHeader
-        sx={{ alignItems: 'flex-start' }}
+        sx={{
+          alignItems: { xs: 'center', md: 'flex-start' },
+          flexDirection: { xs: 'column', md: 'row' },
+          p: 0,
+
+          mb: { xs: 2, md: 3 },
+        }}
         title={title}
         avatar={
-          matchedSmDown ? undefined : (
-            <Avatar
-              sx={{
-                bgcolor: 'primary.light',
-                width: '4rem',
-                height: '4rem',
-                fontWeight: 700,
-                fontSize: 30,
-              }}
-              aria-label={about}
-              alt={about}
-            >
-              {about.charAt(0).toUpperCase()}
-            </Avatar>
-          )
+          <Avatar
+            sx={{
+              display: {
+                xs: 'none',
+                md: 'flex',
+              },
+              bgcolor: 'primary.light',
+              width: '4rem',
+              height: '4rem',
+              fontWeight: 700,
+              fontSize: 30,
+            }}
+            aria-label={about}
+            alt={about}
+          >
+            {about.charAt(0).toUpperCase()}
+          </Avatar>
         }
         subheader={description}
         titleTypographyProps={{
           component: 'h2',
-          variant: matchedSmDown ? 'h6' : 'h4',
-          mb: matchedSmDown ? 1 : 2,
+          fontSize: { xs: '1.5rem', md: '2rem' },
+          mb: 1,
         }}
         subheaderTypographyProps={{
           align: 'left',
-          variant: 'body1',
+          mt: 1,
+
+          fontSize: { xs: '.875rem', md: '1rem' },
         }}
       />
       <CardActionArea
@@ -91,15 +98,14 @@ const SectionCard = ({ sectionContent }) => {
               href === '/videos'
                 ? 'video.main'
                 : 'secondary.main',
-            borderRadius: (theme) =>
-              theme.shape.borderRadius,
+            borderRadius: '4px',
             overflow: 'hidden',
           }}
-          title={`My ${about}`}
+          title={`Go to ${about}`}
         />
       </CardActionArea>
 
-      <CardActions sx={{ mt: 4 }}>
+      <CardActions sx={{ p: 0, mt: { xs: 2, md: 3 } }}>
         <Button
           variant="contained"
           color={href === '/videos' ? 'video' : 'secondary'}
@@ -109,11 +115,11 @@ const SectionCard = ({ sectionContent }) => {
           sx={{
             ml: 'auto',
             fontWeight: 'bold',
+            width: { xs: '100%', md: 'inherit' },
           }}
           component={Link}
           noLinkStyle
           href={href}
-          fullWidth={matchedSmDown}
         >
           Explore
         </Button>
