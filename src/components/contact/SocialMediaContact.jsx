@@ -46,6 +46,7 @@ const SocialMediaContact = () => {
               borderBottom: 3,
               borderColor: (theme) =>
                 theme.palette.secondary.main,
+              mb: { xs: 1, md: 0 },
             }}
           >
             <SentimentVerySatisfiedIcon />
@@ -53,9 +54,14 @@ const SocialMediaContact = () => {
         }
         title="Follow me on social media..."
         sx={{
+          p: 1,
           borderBottom: 2,
           borderColor: 'divider',
-          alignItems: 'flex-start',
+          alignItems: { xs: 'center', md: 'flex-start' },
+          flexDirection: {
+            xs: 'column',
+            md: 'row',
+          },
         }}
         subheader={`Wanna make friends with me? I'd love to laugh at your jokes`}
         titleTypographyProps={{

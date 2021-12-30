@@ -2,7 +2,7 @@
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Stack from '@mui/material/Stack';
+
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
@@ -129,6 +129,8 @@ const ContactForm = () => {
                 borderBottom: 3,
                 borderColor: (theme) =>
                   theme.palette.primary.main,
+
+                mb: { xs: 1, md: 0 },
               }}
             >
               <MailIcon />
@@ -136,9 +138,14 @@ const ContactForm = () => {
           }
           title="I want to build..."
           sx={{
+            p: 1,
             borderBottom: 2,
             borderColor: 'divider',
-            alignItems: 'flex-start',
+            alignItems: { xs: 'center', md: 'flex-start' },
+            flexDirection: {
+              xs: 'column',
+              md: 'row',
+            },
           }}
           subheader={`Wanna build something but having problem? Have a suggestion for content? Maybe just a general question? I would love to hear from you!`}
           titleTypographyProps={{
@@ -147,125 +154,131 @@ const ContactForm = () => {
           }}
         />
 
-        <CardContent>
-          <Stack
-            spacing={2}
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
+        <CardContent
+          sx={{ p: 1, ['&:last-child']: { pb: 1 } }}
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <TextField
+            margin="dense"
+            fullWidth
+            disabled={status === 'pending'}
+            error={!!formState.errors.name}
+            helperText={
+              formState.errors.name?.message || ''
+            }
+            color="primary"
+            size="small"
+            label="Name"
+            variant="filled"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              sx: { fontSize: '.875rem' },
+            }}
+            inputProps={{
+              ...register('name'),
+            }}
+            sx={{ mt: 0 }}
+          />
+          <TextField
+            margin="dense"
+            fullWidth
+            disabled={status === 'pending'}
+            error={!!formState.errors.email}
+            helperText={
+              formState.errors.email?.message || ''
+            }
+            color="primary"
+            size="small"
+            label="Email"
+            variant="filled"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              sx: { fontSize: '.875rem' },
+            }}
+            inputProps={{
+              ...register('email'),
+            }}
+          />
+
+          <TextField
+            margin="dense"
+            fullWidth
+            disabled={status === 'pending'}
+            error={!!formState.errors.subject}
+            helperText={
+              formState.errors.subject?.message || ''
+            }
+            color="primary"
+            size="small"
+            label="Subject"
+            variant="filled"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              sx: { fontSize: '.875rem' },
+            }}
+            inputProps={{
+              ...register('subject'),
+            }}
+          />
+
+          <TextField
+            margin="dense"
+            fullWidth
+            disabled={status === 'pending'}
+            error={!!formState.errors.content}
+            helperText={
+              formState.errors.content?.message || ''
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+            color="primary"
+            size="small"
+            label="Content"
+            variant="filled"
+            multiline
+            minRows={5}
+            placeholder="Please include any relevant details with your request. Dates, times, location, etc."
+            InputProps={{
+              sx: { fontSize: '.875rem' },
+            }}
+            inputProps={{
+              ...register('content'),
+            }}
+          />
+
+          <ReCAPTCHA
+            size="invisible"
+            theme={mode}
+            ref={recaptchaRef}
+            sitekey={
+              process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+            }
+            onChange={onReCAPTCHAChange}
+          />
+
+          <LoadingButton
+            loading={status === 'pending'}
+            disableElevation
+            disabled={
+              !formState.isDirty || !formState.isValid
+            }
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            sx={{ mt: 1.5 }}
+            fullWidth
           >
-            <TextField
-              disabled={status === 'pending'}
-              error={!!formState.errors.name}
-              helperText={
-                formState.errors.name?.message || ''
-              }
-              color="primary"
-              size="small"
-              label="Name"
-              fullWidth
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                sx: { fontSize: '.875rem' },
-              }}
-              inputProps={{
-                ...register('name'),
-              }}
-            />
-            <TextField
-              disabled={status === 'pending'}
-              error={!!formState.errors.email}
-              helperText={
-                formState.errors.email?.message || ''
-              }
-              color="primary"
-              size="small"
-              label="Email"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                sx: { fontSize: '.875rem' },
-              }}
-              inputProps={{
-                ...register('email'),
-              }}
-            />
-
-            <TextField
-              disabled={status === 'pending'}
-              error={!!formState.errors.subject}
-              helperText={
-                formState.errors.subject?.message || ''
-              }
-              color="primary"
-              size="small"
-              label="Subject"
-              fullWidth
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                sx: { fontSize: '.875rem' },
-              }}
-              inputProps={{
-                ...register('subject'),
-              }}
-            />
-
-            <TextField
-              disabled={status === 'pending'}
-              error={!!formState.errors.content}
-              helperText={
-                formState.errors.content?.message || ''
-              }
-              InputLabelProps={{
-                shrink: true,
-              }}
-              color="primary"
-              size="small"
-              label="Content"
-              variant="filled"
-              fullWidth
-              multiline
-              minRows={5}
-              placeholder="Please include any relevant details with your request. Dates, times, location, etc."
-              InputProps={{
-                sx: { fontSize: '.875rem' },
-              }}
-              inputProps={{
-                ...register('content'),
-              }}
-            />
-
-            <ReCAPTCHA
-              size="invisible"
-              theme={mode}
-              ref={recaptchaRef}
-              sitekey={
-                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-              }
-              onChange={onReCAPTCHAChange}
-            />
-
-            <LoadingButton
-              loading={status === 'pending'}
-              disableElevation
-              disabled={
-                !formState.isDirty || !formState.isValid
-              }
-              variant="contained"
-              color="primary"
-              size="large"
-              type="submit"
-            >
-              Submit
-            </LoadingButton>
-          </Stack>
+            Submit
+          </LoadingButton>
         </CardContent>
       </Card>
       <Snackbar
