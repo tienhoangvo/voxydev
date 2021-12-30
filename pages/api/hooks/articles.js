@@ -30,6 +30,7 @@ const onArticleCreated = (req, res) => {
 
   const {
     _id,
+    _type,
     slug,
     title,
     excerpt,
@@ -43,6 +44,7 @@ const onArticleCreated = (req, res) => {
   return articlesIndex
     .saveObject({
       objectID: _id,
+      type: _type,
       slug,
       title,
       excerpt,

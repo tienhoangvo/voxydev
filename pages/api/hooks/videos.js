@@ -28,7 +28,7 @@ const onVideoCreated = (req, res) => {
     process.env.ALGOLIA_ADMIN_API_KEY
   );
 
-  const { _id, title, excerpt, thumbnail, video } =
+  const { _id, _type, title, excerpt, thumbnail, url } =
     req.body;
 
   console.log('CREATED VIDEO', req.body);
@@ -36,11 +36,11 @@ const onVideoCreated = (req, res) => {
   return videoIndex
     .saveObject({
       objectID: _id,
-      _id,
+      type: _type,
       title,
       excerpt,
       thumbnail,
-      video,
+      url,
     })
     .then(() => {
       console.log('✔ SUCCESS');
@@ -58,8 +58,7 @@ const onVideoCreated = (req, res) => {
 const onVideoDeleted = (req, res) => {
   const videoIndex = algoliaClient.initIndex('videos');
 
-  const { _id, title, excerpt, thumbnail, video } =
-    req.body;
+  const { _id, title, excerpt, thumbnail, url } = req.body;
 
   console.log('DEBUG DELETED VIDEO', req.body);
 
