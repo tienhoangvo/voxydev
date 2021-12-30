@@ -44,7 +44,7 @@ const onArticleCreated = (req, res) => {
   return articlesIndex
     .saveObject({
       objectID: _id,
-      type: _type,
+      type: 'article',
       slug,
       title,
       excerpt,
