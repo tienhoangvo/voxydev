@@ -24,13 +24,8 @@ import urlFor from '../../lib/sanity/urlFor';
 import timeAgoFormat from '../../lib/utils/timeAgoFormat';
 
 const VideoListItem = ({ video }) => {
-  const {
-    title,
-    excerpt,
-    thumbnail,
-    video: youtubeVideo,
-    _createdAt,
-  } = video;
+  const { title, excerpt, thumbnail, url, _createdAt } =
+    video;
 
   const renderExcerpt = useCallback(() => {
     if (!excerpt) return 'No excerpt';
@@ -64,7 +59,7 @@ const VideoListItem = ({ video }) => {
               }}
               component={'a'}
               target="_blank"
-              href={youtubeVideo?.url}
+              href={url}
             >
               <CardMedia
                 image={urlFor(thumbnail).height(200).url()}
@@ -115,7 +110,7 @@ const VideoListItem = ({ video }) => {
               startIcon={<YouTubeIcon />}
               component={'a'}
               target="_blank"
-              href={youtubeVideo?.url}
+              href={url}
             >
               Watch
             </Button>

@@ -27,7 +27,6 @@ const VideoList = ({ firstPageData = [] }) => {
       {videoPages.map((videos) =>
         videos?.map((video) => (
           <Grid item xs={12} key={video._id}>
-            {' '}
             <VideoListItem video={video} />
           </Grid>
         ))

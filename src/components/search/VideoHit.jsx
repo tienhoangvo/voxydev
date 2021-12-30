@@ -15,7 +15,7 @@ const VideoHit = ({ hit, onSearchClose }) => {
       component={'a'}
       rel="noopener"
       target="_blank"
-      href={hit.video.url}
+      href={hit.url}
       onClick={onSearchClose}
     >
       <ListItemAvatar>

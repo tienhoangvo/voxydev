@@ -17,7 +17,7 @@ const Hits = ({ hits, onSearchClose }) => {
     if (hits.length === 0) return <HitNoResult />;
 
     return hits.map((hit) =>
-      hit.thumbnail ? (
+      hit.type === 'video' ? (
         <VideoHit
           key={hit.objectID}
           hit={hit}
