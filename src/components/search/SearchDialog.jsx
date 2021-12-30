@@ -71,7 +71,7 @@ const SearchDialog = ({ open = false, onClose }) => {
         </CardActions>
 
         <CardContent
-          sx={{ height: '85vh', overflowY: 'scroll' }}
+          sx={{ height: '85vh', overflowY: 'scroll', p: 0 }}
         >
           <Index indexName="articles">
             <List

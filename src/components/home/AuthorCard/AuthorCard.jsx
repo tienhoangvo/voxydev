@@ -93,12 +93,12 @@ const AuthorCard = () => {
         }}
       >
         <Grid container>
-          <Grid item xs={12} sm={12} md={10} lg={8}>
+          <Grid item xs={12} md={10} lg={8}>
             {owner && (
               <SanityBlockContent blocks={owner.bio} />
             )}
           </Grid>
-          <Grid item xs={false} sm={false} md={2} lg={4} />
+          <Grid item xs={false} md={2} lg={4} />
         </Grid>
       </CardContent>
       <CardActions

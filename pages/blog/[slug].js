@@ -115,13 +115,13 @@ const BlogPostPageContent = () => {
         }}
       >
         <Grid container spacing={3}>
-          <Grid item sm={12} lg={8}>
+          <Grid item xs={12} lg={8}>
             <BlogArticle />
 
             <BlogComments />
           </Grid>
 
-          <Grid item sm={12} lg={4}>
+          <Grid item xs={12} lg={4}>
             <RelevantArticles />
           </Grid>
         </Grid>
