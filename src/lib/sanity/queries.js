@@ -21,7 +21,7 @@ const videoFields = `
   title,
   excerpt,
   "thumbnail": thumbnail.asset->url,
-  video,
+  url,
   _createdAt
 `;
 
