@@ -24,7 +24,7 @@ const LightPalette = {
   github: { main: 'rgb(50, 80, 109)' },
   heart: { main: 'rgb(216, 27, 96)' },
   linkedin: { main: 'rgb(10, 102, 194)' },
-
+  instagram: { main: '#c13584' },
   background: {
     primary: 'rgba(85, 108, 214, 0.1)',
     secondary: 'rgba(25, 133, 123, 0.1)',

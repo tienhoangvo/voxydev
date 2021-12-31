@@ -12,6 +12,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import LoginIcon from '@mui/icons-material/Login';
 import { useMediaQuery } from '@mui/material';
 
@@ -22,38 +23,22 @@ const PROVIDERS = [
   {
     id: 'google',
     name: 'Google',
-    type: 'oauth',
-    signinUrl:
-      'http://localhost:3000/api/auth/signin/google',
-    callbackUrl:
-      'http://localhost:3000/api/auth/callback/google',
   },
   {
     id: 'facebook',
     name: 'Facebook',
-    type: 'oauth',
-    signinUrl:
-      'http://localhost:3000/api/auth/signin/facebook',
-    callbackUrl:
-      'http://localhost:3000/api/auth/callback/facebook',
   },
   {
     id: 'twitter',
     name: 'Twitter',
-    type: 'oauth',
-    signinUrl:
-      'http://localhost:3000/api/auth/signin/twitter',
-    callbackUrl:
-      'http://localhost:3000/api/auth/callback/twitter',
   },
   {
     id: 'github',
     name: 'GitHub',
-    type: 'oauth',
-    signinUrl:
-      'http://localhost:3000/api/auth/signin/github',
-    callbackUrl:
-      'http://localhost:3000/api/auth/callback/github',
+  },
+  {
+    id: 'instagram',
+    name: 'Instagram',
   },
 ];
 
@@ -82,6 +67,8 @@ const LoginDialog = ({
         return <TwitterIcon color="twitter" />;
       case 'github':
         return <GitHubIcon color="github" />;
+      case 'instagram':
+        return <InstagramIcon color="instagram" />;
       default:
         return <LoginIcon />;
     }

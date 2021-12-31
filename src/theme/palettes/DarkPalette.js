@@ -24,7 +24,7 @@ const DarkPalette = {
   github: { main: 'rgb(84, 131, 177)' },
   heart: { main: 'rgb(243, 129, 168)' },
   linkedin: { main: 'rgb(93, 170, 247)' },
-
+  instagram: { main: '#d565a4' },
   background: {
     primary: 'rgba(159, 168, 218, 0.1)',
     secondary: 'rgba(128, 203, 196, 0.1)',

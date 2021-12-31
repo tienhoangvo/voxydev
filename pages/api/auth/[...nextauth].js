@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import TwitterProvider from 'next-auth/providers/twitter';
 import GithubProvider from 'next-auth/providers/github';
-
+import InstagramProvider from 'next-auth/providers/instagram';
 import {
   createUser,
   getUserById,
@@ -27,6 +27,10 @@ export default NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+    }),
+    InstagramProvider({
+      clientId: process.env.INSTAGRAM_ID,
+      clientSecret: process.env.INSTAGRAM_SECRET,
     }),
   ],
 
