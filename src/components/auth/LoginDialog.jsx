@@ -11,6 +11,8 @@ import GoogleIcon from '@mui/icons-material/Google';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LoginIcon from '@mui/icons-material/Login';
 import { useMediaQuery } from '@mui/material';
 
 import { signIn } from 'next-auth/react';
@@ -44,6 +46,15 @@ const PROVIDERS = [
     callbackUrl:
       'http://localhost:3000/api/auth/callback/twitter',
   },
+  {
+    id: 'github',
+    name: 'GitHub',
+    type: 'oauth',
+    signinUrl:
+      'http://localhost:3000/api/auth/signin/github',
+    callbackUrl:
+      'http://localhost:3000/api/auth/callback/github',
+  },
 ];
 
 const LoginDialog = ({
@@ -69,6 +80,8 @@ const LoginDialog = ({
         return <FacebookIcon color="facebook" />;
       case 'twitter':
         return <TwitterIcon color="twitter" />;
+      case 'github':
+        return <GitHubIcon color="github" />;
       default:
         return <LoginIcon />;
     }
