@@ -1,4 +1,4 @@
-import authenticate from '../../../../src/lib/middlewares/authenticate';
+import authenticate from '../../../../src/lib/auth/authenticate';
 import { replyMutations } from '../../../../src/lib/sanity/mutations';
 import { writeClient } from '../../../../src/lib/sanity/sanity.server';
 

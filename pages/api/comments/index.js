@@ -1,6 +1,6 @@
-import authenticate from '../../../src/lib/middlewares/authenticate';
 import { commentMutations } from '../../../src/lib/sanity/mutations';
 
+import authenticate from './../../../src/lib/auth/authenticate';
 const commentsHandler = (req, res) => {
   const { method } = req;
 

@@ -1,4 +1,4 @@
-import authenticate from '../../../../src/lib/middlewares/authenticate';
+import authenticate from '../../../../src/lib/auth/authenticate';
 import { writeClient } from '../../../../src/lib/sanity/sanity.server';
 import { commentMutations } from '../../../../src/lib/sanity/mutations';
 const commentHandler = (req, res) => {
