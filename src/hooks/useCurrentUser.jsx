@@ -1,22 +1,25 @@
+import { getSession } from 'next-auth/react';
+
 import useSWRImmutable from 'swr/immutable';
 
-import axiosFetcher from '../lib/utils/apiFetcher';
+const fetcher = () => getSession();
 
-const getKey = () => '/api/users/me';
+const getKey = () => '/api/auth/session';
 
 const useCurrentUser = () => {
   const { data, error, mutate } = useSWRImmutable(
-    getKey,
-    axiosFetcher
+    '/api/auth/session',
+    fetcher
   );
 
-  const loading = !data && !error;
+  console.log('useCurrentUser');
 
+  console.log({ data, error });
   return {
-    currentUser: data || null,
-    error,
+    currentUser: data,
+
     mutate,
-    loading,
+    loading: !data && !error,
   };
 };
 

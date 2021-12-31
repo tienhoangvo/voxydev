@@ -4,7 +4,7 @@ import groq from 'groq';
 export const postRequest = axios.create({
   baseURL: `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET_NAME}`,
   headers: {
-    Authorization: `Bearer ${process.env.SANITY_API_WRITE_TOKEN}`,
+    Authorization: `Bearer ${process.env.SANITY_EDIT_TOKEN}`,
     'Content-Type': 'application/json',
   },
 });
@@ -16,7 +16,7 @@ export const mutate = (mutations = [], params) => {
     {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${process.env.SANITY_API_WRITE_TOKEN}`,
+        Authorization: `Bearer ${process.env.SANITY_EDIT_TOKEN}`,
       },
       params,
     }
@@ -175,88 +175,4 @@ export const replyMutations = {
 
     return mutate(mutations);
   },
-};
-export const heartArticle = ({
-  articleId = '',
-  userId = '',
-  userFavoriteArticles = [],
-  userFavoriteArticlesQuantity = 0,
-}) => {
-  const userMutations = [
-    {
-      patch: {
-        id: userId,
-        set: {
-          favoriteArticles: [
-            ...userFavoriteArticles,
-            {
-              _ref: articleId,
-              _type: 'reference',
-              _key: articleId,
-            },
-          ],
-
-          favoriteArticlesQuantity:
-            userFavoriteArticlesQuantity + 1,
-        },
-      },
-    },
-  ];
-
-  const articleMutations = [
-    {
-      patch: {
-        id: articleId,
-
-        inc: {
-          heartsQuantity: 1,
-        },
-      },
-    },
-  ];
-
-  return Promise.all([
-    mutate(userMutations, { returnDocuments: true }),
-    mutate(articleMutations),
-  ]);
-};
-
-export const unheartArticle = ({
-  articleId = '',
-  userId = '',
-  userFavoriteArticles = [],
-  userFavoriteArticlesQuantity = 0,
-}) => {
-  const userMutations = [
-    {
-      patch: {
-        id: userId,
-        set: {
-          favoriteArticles: userFavoriteArticles.filter(
-            (article) => article._ref !== articleId
-          ),
-
-          favoriteArticlesQuantity:
-            userFavoriteArticlesQuantity - 1,
-        },
-      },
-    },
-  ];
-
-  const articleMutations = [
-    {
-      patch: {
-        id: articleId,
-
-        dec: {
-          heartsQuantity: 1,
-        },
-      },
-    },
-  ];
-
-  return Promise.all([
-    mutate(userMutations, { returnDocuments: true }),
-    mutate(articleMutations),
-  ]);
 };

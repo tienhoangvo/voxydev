@@ -1,8 +1,9 @@
-import authenticate from '../../../src/lib/middlewares/authenticate';
+import authenticate from '../../../src/lib/auth/authenticate';
+
 import {
   heartArticle,
   unheartArticle,
-} from '../../../src/lib/sanity/mutations';
+} from '../../../src/lib/sanity/mutations/heart';
 
 const heartsHandler = (req, res) => {
   console.log(`${req.method} ${req.url}`);
@@ -28,27 +29,16 @@ const heartsHandler = (req, res) => {
 const createHeart = async (req, res) => {
   const { articleId } = req.query;
 
-  const {
-    _id: userId,
-    favoriteArticles: userFavoriteArticles,
-    favoriteArticlesQuantity: userFavoriteArticlesQuantity,
-  } = req.currentUser;
-
   try {
     // Insert user heart
-    const [userResponse, articleResponse] =
-      await heartArticle({
-        articleId,
-        userId,
-        userFavoriteArticles,
-        userFavoriteArticlesQuantity,
-      });
+    const user = await heartArticle({
+      articleId,
+      currentUser: req.currentUser,
+    });
 
-    console.log('userResponse', userResponse.data);
-    console.log('articleResponse', articleResponse.data);
+    console.log('user', user);
 
-    const user = userResponse.data.results[0].document;
-    res.status(201).json(user);
+    res.json(user);
   } catch (error) {
     console.error(error);
     console.log(error);
@@ -64,26 +54,13 @@ const createHeart = async (req, res) => {
 const deleteHeart = async (req, res) => {
   const { articleId } = req.query;
 
-  const {
-    _id: userId,
-    favoriteArticles: userFavoriteArticles,
-    favoriteArticlesQuantity: userFavoriteArticlesQuantity,
-  } = req.currentUser;
-
   try {
     // Insert user heart
-    const [userResponse, articleResponse] =
-      await unheartArticle({
-        articleId,
-        userId,
-        userFavoriteArticles,
-        userFavoriteArticlesQuantity,
-      });
+    const user = await unheartArticle({
+      articleId,
+      currentUser: req.currentUser,
+    });
 
-    console.log('userResponse', userResponse.data);
-    console.log('articleResponse', articleResponse.data);
-
-    const user = userResponse.data.results[0].document;
     res.status(200).json(user);
   } catch (error) {
     console.error(error);

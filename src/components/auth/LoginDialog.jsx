@@ -8,9 +8,44 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 
 import GoogleIcon from '@mui/icons-material/Google';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMediaQuery } from '@mui/material';
+
+import { getProviders, signIn } from 'next-auth/react';
+
+import { useEffect, useState } from 'react';
+
+const PROVIDERS = [
+  {
+    id: 'google',
+    name: 'Google',
+    type: 'oauth',
+    signinUrl:
+      'http://localhost:3000/api/auth/signin/google',
+    callbackUrl:
+      'http://localhost:3000/api/auth/callback/google',
+  },
+  {
+    id: 'facebook',
+    name: 'Facebook',
+    type: 'oauth',
+    signinUrl:
+      'http://localhost:3000/api/auth/signin/facebook',
+    callbackUrl:
+      'http://localhost:3000/api/auth/callback/facebook',
+  },
+  {
+    id: 'twitter',
+    name: 'Twitter',
+    type: 'oauth',
+    signinUrl:
+      'http://localhost:3000/api/auth/signin/twitter',
+    callbackUrl:
+      'http://localhost:3000/api/auth/callback/twitter',
+  },
+];
 
 const LoginDialog = ({
   open = false,
@@ -19,6 +54,20 @@ const LoginDialog = ({
   const matchedSMDown = useMediaQuery((theme) =>
     theme.breakpoints.down('sm')
   );
+
+  const renderIcon = (id) => {
+    switch (id) {
+      case 'google':
+        return <GoogleIcon color="google" />;
+      case 'facebook':
+        return <FacebookIcon color="facebook" />;
+      case 'twitter':
+        return <TwitterIcon color="twitter" />;
+      default:
+        return <LoginIcon />;
+    }
+  };
+
   return (
     <Dialog
       open={open}
@@ -49,30 +98,26 @@ const LoginDialog = ({
 
       <CardContent>
         <List>
-          <ListItemButton
-            component="a"
-            href="/api/auth/google"
-            sx={{ border: 1, borderColor: 'divider' }}
-          >
-            <ListItemIcon>
-              <GoogleIcon color="google" />
-            </ListItemIcon>
-            <ListItemText primary="Continue with Google" />
-          </ListItemButton>
-          <ListItemButton
-            component="a"
-            href="/api/auth/facebook"
-            sx={{
-              border: 1,
-              borderColor: 'divider',
-              mt: 2,
-            }}
-          >
-            <ListItemIcon>
-              <FacebookIcon color="facebook" />
-            </ListItemIcon>
-            <ListItemText primary="Continue with Facebook" />
-          </ListItemButton>
+          {PROVIDERS.map((provider, index) => (
+            <ListItemButton
+              key={provider.id}
+              onClick={() => {
+                signIn(provider.id);
+              }}
+              sx={{
+                mt: index > 0 && 2,
+                border: 1,
+                borderColor: 'divider',
+              }}
+            >
+              <ListItemIcon>
+                {renderIcon(provider.id)}
+              </ListItemIcon>
+              <ListItemText
+                primary={`Continue with ${provider.name}`}
+              />
+            </ListItemButton>
+          ))}
         </List>
       </CardContent>
     </Dialog>

@@ -59,7 +59,10 @@ const HeartButton = ({
         setStatus('heart success');
 
         console.log('Heart success', user);
-        mutate(user);
+        mutate(user, {
+          populateCache: true,
+          revalidate: false,
+        });
       });
   };
   const unheartArticle = () => {

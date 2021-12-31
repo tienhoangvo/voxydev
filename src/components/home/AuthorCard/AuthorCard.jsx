@@ -70,7 +70,12 @@ const AuthorCard = () => {
         }
         titleTypographyProps={{
           component: 'h1',
-          variant: { xs: 'h5', md: 'h3' },
+          sx: {
+            fontSize: (theme) => ({
+              xs: theme.typography.h5.fontSize,
+              md: theme.typography.h3.fontSize,
+            }),
+          },
         }}
         subheaderTypographyProps={{
           component: 'p',

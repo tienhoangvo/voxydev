@@ -16,7 +16,9 @@ import createEmotionCache from '../src/lib/createEmotionCache';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import { SessionProvider } from 'next-auth/react';
 import * as gtag from '../src/lib/googleAnalytics/gtag';
+
 TimeAgo.addDefaultLocale(en);
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -50,6 +52,7 @@ export default function MyApp({
         `,
         }}
       />
+
       <CacheProvider value={emotionCache}>
         <Head>
           <title>Loading - VoxyDev</title>
