@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 /** @param {import("next/server").NextRequest} req */
 export async function middleware(req) {
-  console.log('+++++req.nextUrl:');
+  console.log('me middleware');
   console.log(req.nextUrl.pathname);
   if (req.nextUrl.pathname === '/me/favorites') {
     console.log('Secret', process.env.SECRET);

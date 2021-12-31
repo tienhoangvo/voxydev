@@ -32,11 +32,10 @@ const BlogPage = () => {
           content="MUI, Material UI, Nextjs, Material UI V5, Blog, VoxyDev"
         />
       </Head>
-      <Stack alignItems="center" sx={{ width: '100%' }}>
-        <Container maxWidth="md">
-          <FavoriteArticles />
-        </Container>
-      </Stack>
+
+      <Container maxWidth="md">
+        <FavoriteArticles />
+      </Container>
     </>
   );
 };

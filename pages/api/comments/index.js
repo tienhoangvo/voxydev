@@ -1,6 +1,6 @@
-import { commentMutations } from '../../../src/lib/sanity/mutations';
-
+import { createNewComment } from '../../../src/lib/sanity/mutations/comment';
 import authenticate from './../../../src/lib/auth/authenticate';
+
 const commentsHandler = (req, res) => {
   const { method } = req;
 
@@ -19,37 +19,17 @@ const commentsHandler = (req, res) => {
 };
 
 const createComment = async (req, res) => {
-  const {
-    articleId,
-    content: commentContent,
-    createdAt: commentCreatedAt,
-  } = req.body;
-
-  const {
-    _id: userId,
-    name: userName,
-    avatar: userAvatar,
-    email: userEmail,
-  } = req.currentUser;
+  const { articleId, content, createdAt } = req.body;
 
   try {
-    const response = await commentMutations.createComment({
-      userId,
-      userName,
-      userAvatar,
-      userEmail,
+    const comment = await createNewComment({
+      currentUser: req.currentUser,
       articleId,
-      commentContent,
-      commentCreatedAt,
+      content,
+      createdAt,
     });
 
-    const [commentData, articleData] =
-      response.data.results;
-
-    console.log('commentData', commentData);
-    console.log('articleData', articleData);
-
-    res.status(201).json({ _id: commentData.id });
+    res.status(201).json(comment);
   } catch (error) {
     console.error(error);
     console.dir(error);

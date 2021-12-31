@@ -1,6 +1,9 @@
 import authenticate from '../../../../src/lib/auth/authenticate';
-import { replyMutations } from '../../../../src/lib/sanity/mutations';
-import { writeClient } from '../../../../src/lib/sanity/sanity.server';
+import SanityEditClient from '../../../../src/lib/sanity/clients/SanityEditClient';
+import {
+  createNewReply,
+  deleteAReply,
+} from '../../../../src/lib/sanity/mutations/reply';
 
 const repliesHandler = (req, res) => {
   const { method } = req;
@@ -29,52 +32,22 @@ const createReply = async (req, res) => {
   const { content, createdAt, repliedTo } = req.body;
 
   console.log(req.body);
-  const {
-    _id: userId,
-    name: userName,
-    avatar: userAvatar,
-    email: userEmail,
-  } = req.currentUser;
 
   try {
-    const repliedToUser = await writeClient.getDocument(
-      repliedTo
-    );
+    const repliedToUser =
+      await SanityEditClient.getDocument(repliedTo);
 
     console.log('repliedToUser', repliedToUser);
 
-    const {
-      _id: repliedToUserId,
-      name: repliedToUserName,
-      avatar: repliedToUserAvatar,
-      email: repliedToUserEmail,
-    } = repliedToUser;
-
-    const response = await replyMutations.createReply({
+    const reply = await createNewReply({
+      currentUser: req.currentUser,
+      repliedToUser,
+      content,
+      createdAt,
       commentId,
-
-      userId,
-      userName,
-      userAvatar,
-      userEmail,
-
-      repliedToUserId,
-      repliedToUserName,
-      repliedToUserAvatar,
-      repliedToUserEmail,
-
-      replyContent: content,
-      replyCreatedAt: createdAt,
     });
 
-    console.log('REPLY CREATE RESPONSE', response);
-
-    const [replyData, commentData] = response.data.results;
-
-    console.log('REPLY DATA', replyData);
-
-    console.log('COMMENT DATA', commentData);
-    const reply = replyData.document;
+    console.log('new reply created', reply);
     res.status(201).json(reply);
   } catch (error) {
     console.error(error);
@@ -92,8 +65,10 @@ const deleteReply = async (req, res) => {
 
   const { _id: userId } = req.currentUser;
 
+  console.log(req.query);
+
   try {
-    await replyMutations.deleteReply({
+    await deleteAReply({
       replyId,
       commentId,
       userId,

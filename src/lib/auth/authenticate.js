@@ -15,7 +15,6 @@ const authenticate = (handler) => async (req, res) => {
   }
 
   console.log('## AUTHENTICATION SUCCESS...');
-  console.log(session);
 
   req.currentUser = session;
 

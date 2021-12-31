@@ -85,7 +85,7 @@ const FavoriteArticles = () => {
         </LoadingButton>
       </Grid>
 
-      <Grid xs={12} sx={{ mb: 2 }} />
+      <Grid item xs={12} sx={{ mb: 2 }} />
     </Grid>
   );
 };

@@ -2,7 +2,6 @@ import Stack from '@mui/material/Stack';
 
 import PalletteSwitchButton from '../PalletteSwitchButton';
 import useCurrentUser from '../../hooks/useCurrentUser';
-import axiosFetcher from '../../lib/utils/apiFetcher';
 import LoginButton from './../auth/LoginButton';
 
 import UserAvatarButton from './UserAvatarButton';
@@ -10,16 +9,6 @@ import UserAvatarButton from './UserAvatarButton';
 const UserMenu = () => {
   const { currentUser, mutate } = useCurrentUser();
 
-  const onLogoutClick = () => {
-    axiosFetcher('/api/auth/logout')
-      .then((res) => {
-        mutate(null);
-      })
-      .catch((err) => {
-        console.error(err);
-        console.dir(err);
-      });
-  };
   return (
     <Stack
       direction="row"

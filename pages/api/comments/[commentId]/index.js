@@ -1,6 +1,7 @@
 import authenticate from '../../../../src/lib/auth/authenticate';
-import { writeClient } from '../../../../src/lib/sanity/sanity.server';
-import { commentMutations } from '../../../../src/lib/sanity/mutations';
+import SanityEditClient from '../../../../src/lib/sanity/clients/SanityEditClient';
+import { deleteAComment } from '../../../../src/lib/sanity/mutations/comment';
+
 const commentHandler = (req, res) => {
   const { method } = req;
 
@@ -19,13 +20,10 @@ const commentHandler = (req, res) => {
 
 const deleteComment = async (req, res) => {
   const { commentId } = req.query;
-
-  console.log({ commentId });
-
   const { _id: userId } = req.currentUser;
 
   try {
-    const comment = await writeClient.getDocument(
+    const comment = await SanityEditClient.getDocument(
       commentId
     );
 
@@ -43,18 +41,12 @@ const deleteComment = async (req, res) => {
       });
     }
 
-    // Delete all replies
-
     const articleId = comment.article._ref;
 
-    console.log(articleId);
-
-    const response = await commentMutations.deleteComment({
+    await deleteAComment({
       commentId,
       articleId,
     });
-
-    console.log('🔁 RESPONSE DATA', response.data.results);
 
     return res.status(204).send();
   } catch (error) {

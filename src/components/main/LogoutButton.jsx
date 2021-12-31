@@ -12,24 +12,16 @@ import LogoutIcon from '@mui/icons-material/Logout';
 // @src/components
 import BackdropSpinner from '../progress/BackdropSpinner';
 
-// @src/hooks
-import useCurrentUser from '../../hooks/useCurrentUser';
-
 // @src/lib
-import axiosFetcher from './../../lib/utils/apiFetcher';
+import { signOut } from 'next-auth/react';
 
 const LogoutButton = () => {
   const [loading, setLoading] = useState(false);
 
-  const { mutate } = useCurrentUser();
-
   const onLogoutClick = () => {
     setLoading(true);
 
-    axiosFetcher('/api/auth/logout').then(() => {
-      setLoading(false);
-      mutate(null);
-    });
+    signOut();
   };
 
   return (

@@ -13,10 +13,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMediaQuery } from '@mui/material';
 
-import { getProviders, signIn } from 'next-auth/react';
-
-import { useEffect, useState } from 'react';
-
+import { signIn } from 'next-auth/react';
+import BackdropSpinner from '../progress/BackdropSpinner';
+import { useState } from 'react';
 const PROVIDERS = [
   {
     id: 'google',
@@ -51,9 +50,16 @@ const LoginDialog = ({
   open = false,
   onClose = (f) => f,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const matchedSMDown = useMediaQuery((theme) =>
     theme.breakpoints.down('sm')
   );
+
+  const onListItemClick = (providerId) => () => {
+    setLoading(true);
+    signIn(providerId);
+  };
 
   const renderIcon = (id) => {
     switch (id) {
@@ -101,9 +107,7 @@ const LoginDialog = ({
           {PROVIDERS.map((provider, index) => (
             <ListItemButton
               key={provider.id}
-              onClick={() => {
-                signIn(provider.id);
-              }}
+              onClick={onListItemClick(provider.id)}
               sx={{
                 mt: index > 0 && 2,
                 border: 1,
@@ -120,6 +124,7 @@ const LoginDialog = ({
           ))}
         </List>
       </CardContent>
+      <BackdropSpinner open={loading} />
     </Dialog>
   );
 };

@@ -39,6 +39,8 @@ const CreateCommentForm = ({ articleId }) => {
 
   const { currentUser } = useCurrentUser();
 
+  console.log('💜💜💜💜', currentUser);
+
   const { addComment } = useCurrentUserComments({
     articleId,
   });
