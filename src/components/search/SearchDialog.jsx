@@ -49,7 +49,7 @@ const SearchDialog = ({ open = false, onClose }) => {
         }}
         action={
           <IconButton onClick={onClose}>
-            <CloseIcon />
+            <CloseIcon size="small" />
           </IconButton>
         }
         titleTypographyProps={{

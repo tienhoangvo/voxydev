@@ -12,7 +12,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LoginIcon from '@mui/icons-material/Login';
 import { useMediaQuery } from '@mui/material';
 
@@ -37,8 +37,8 @@ const PROVIDERS = [
     name: 'GitHub',
   },
   {
-    id: 'instagram',
-    name: 'Instagram',
+    id: 'linkedin',
+    name: 'LinkedIn',
   },
 ];
 
@@ -60,15 +60,25 @@ const LoginDialog = ({
   const renderIcon = (id) => {
     switch (id) {
       case 'google':
-        return <GoogleIcon color="google" />;
+        return (
+          <GoogleIcon fontSize="small" color="google" />
+        );
       case 'facebook':
-        return <FacebookIcon color="facebook" />;
+        return (
+          <FacebookIcon fontSize="small" color="facebook" />
+        );
       case 'twitter':
-        return <TwitterIcon color="twitter" />;
+        return (
+          <TwitterIcon fontSize="small" color="twitter" />
+        );
       case 'github':
-        return <GitHubIcon color="github" />;
-      case 'instagram':
-        return <InstagramIcon color="instagram" />;
+        return (
+          <GitHubIcon fontSize="small" color="github" />
+        );
+      case 'linkedin':
+        return (
+          <LinkedInIcon fontSize="small" color="linkedin" />
+        );
       default:
         return <LoginIcon />;
     }
@@ -91,7 +101,7 @@ const LoginDialog = ({
         }}
         action={
           <IconButton onClick={onClose}>
-            <CloseIcon />
+            <CloseIcon fontSize="small" />
           </IconButton>
         }
         titleTypographyProps={{
@@ -106,18 +116,23 @@ const LoginDialog = ({
         <List>
           {PROVIDERS.map((provider, index) => (
             <ListItemButton
+              dense
               key={provider.id}
               onClick={onListItemClick(provider.id)}
               sx={{
                 mt: index > 0 && 2,
-                border: 1,
-                borderColor: 'divider',
+                border: 2,
+                borderColor: `${provider.id}.main`,
+                borderRadius: '4px',
               }}
             >
               <ListItemIcon>
                 {renderIcon(provider.id)}
               </ListItemIcon>
               <ListItemText
+                primaryTypographyProps={{
+                  fontWeight: 700,
+                }}
                 primary={`Continue with ${provider.name}`}
               />
             </ListItemButton>
