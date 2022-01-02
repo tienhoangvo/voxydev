@@ -4,7 +4,7 @@ import useSWRInfinite from 'swr/infinite';
 
 import SanityCDNReadClient from '../lib/sanity/clients/SanityCDNReadClient';
 
-import { ARTICLE_PAGE_LIMIT } from '../lib/sanity/queries/CONSTANTS';
+import { ARTICLE_PAGE_LIMIT } from '../lib/sanity/queries/constants';
 import { listVideosOnPage } from '../lib/sanity/queries/video';
 
 const sanityFetcher = (query) =>
