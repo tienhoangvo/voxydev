@@ -8,7 +8,7 @@ import ArticleList from '../../src/components/article/ArticleList';
 
 import SanityCDNReadClient from '../../src/lib/sanity/clients/SanityCDNReadClient';
 import { listArticlesOnPage } from '../../src/lib/sanity/queries/article';
-import { ARTICLE_PAGE_LIMIT } from '../../src/lib/sanity/queries/CONSTANTS';
+import { ARTICLE_PAGE_LIMIT } from '../../src/lib/sanity/queries/constants';
 import { useRouter } from 'next/router';
 import PageFallbackLoader from '../../src/components/progress/PageFallbackLoader';
 import { SWRConfig } from 'swr';

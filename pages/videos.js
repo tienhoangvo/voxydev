@@ -5,7 +5,7 @@ import MainLayout from '../src/layouts/MainLayout';
 import VideoList from '../src/components/videos/VideoList';
 import SanityCDNReadClient from '../src/lib/sanity/clients/SanityCDNReadClient';
 import { listVideosOnPage } from '../src/lib/sanity/queries/video';
-import { VIDEO_PAGE_LIMIT } from '../src/lib/sanity/queries/CONSTANTS';
+import { VIDEO_PAGE_LIMIT } from '../src/lib/sanity/queries/constants';
 import { SWRConfig } from 'swr';
 import { useRouter } from 'next/router';
 import PageFallbackLoader from '../src/components/progress/PageFallbackLoader';
