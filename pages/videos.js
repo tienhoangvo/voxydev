@@ -1,27 +1,16 @@
-// @next
 import Head from 'next/head';
-
-// @mui/material
 import Container from '@mui/material/Container';
 
-// @src/layouts
 import MainLayout from '../src/layouts/MainLayout';
 import VideoList from '../src/components/videos/VideoList';
+import SanityCDNReadClient from '../src/lib/sanity/clients/SanityCDNReadClient';
+import { listVideosOnPage } from '../src/lib/sanity/queries/video';
+import { VIDEO_PAGE_LIMIT } from '../src/lib/sanity/queries/CONSTANTS';
+import { SWRConfig } from 'swr';
+import { useRouter } from 'next/router';
+import PageFallbackLoader from '../src/components/progress/PageFallbackLoader';
 
-// @src/constants
-import { BLOG_INDEX_LIMIT } from '../src/constants';
-import { getVideosQuery } from '../src/lib/sanity/queries';
-import { getClient } from '../src/lib/sanity/sanity.server';
-
-const getPageQuery = (page) => {
-  if (page < 0) return null;
-
-  return getVideosQuery({
-    start: BLOG_INDEX_LIMIT * (page - 1),
-    end: page * BLOG_INDEX_LIMIT - 1,
-  });
-};
-const VideosPage = ({ preview, firstPageData }) => {
+const VideosPageContent = () => {
   return (
     <>
       <Head>
@@ -80,9 +69,21 @@ const VideosPage = ({ preview, firstPageData }) => {
       </Head>
 
       <Container maxWidth="md">
-        <VideoList firstPageData={firstPageData} />
+        <VideoList />
       </Container>
     </>
+  );
+};
+
+const VideosPage = ({ fallbackData }) => {
+  const router = useRouter();
+
+  if (router.isFallback) return <PageFallbackLoader />;
+
+  return (
+    <SWRConfig value={{ fallbackData }}>
+      <VideosPageContent />
+    </SWRConfig>
   );
 };
 
@@ -92,18 +93,19 @@ VideosPage.getLayout = (page) => (
 
 export default VideosPage;
 
-export const getStaticProps = async ({
-  preview = false,
-}) => {
-  const firstPageData = await getClient(preview).fetch(
-    getPageQuery(1)
+export const getStaticProps = async () => {
+  const firstPageData = await SanityCDNReadClient.fetch(
+    listVideosOnPage({
+      page: 1,
+      limit: VIDEO_PAGE_LIMIT,
+    })
   );
-  console.log('FIRST PAGE BLOGS', firstPageData);
 
   return {
+    revalidate:
+      process.env.NODE_ENV === 'production' ? 10 : false,
     props: {
-      preview,
-      firstPageData,
+      fallbackData: [firstPageData],
     },
   };
 };

@@ -1,39 +1,25 @@
-// @next/
 import Head from 'next/head';
-
-// @mui/material
 
 import Container from '@mui/material/Container';
 
-// @src/layouts/
 import MainLayout from '../../src/layouts/MainLayout';
-
-// @src/lib/sanity
-import {
-  getClient,
-  overlayDrafts,
-} from '../../src/lib/sanity/sanity.server';
-import { getBlogsQuery } from '../../src/lib/sanity/queries';
-
-// @src/components
 
 import ArticleList from '../../src/components/article/ArticleList';
 
-// @src/constants
-import { BLOG_INDEX_LIMIT } from '../../src/constants';
+import SanityCDNReadClient from '../../src/lib/sanity/clients/SanityCDNReadClient';
+import { listArticlesOnPage } from '../../src/lib/sanity/queries/article';
+import { ARTICLE_PAGE_LIMIT } from '../../src/lib/sanity/queries/CONSTANTS';
+import { useRouter } from 'next/router';
+import PageFallbackLoader from '../../src/components/progress/PageFallbackLoader';
+import { SWRConfig } from 'swr';
 
-const getPageQuery = (page) => {
-  if (page < 0) return null;
+const BlogPage = ({ fallbackData }) => {
+  const router = useRouter();
 
-  return getBlogsQuery({
-    start: BLOG_INDEX_LIMIT * (page - 1),
-    end: page * BLOG_INDEX_LIMIT - 1,
-  });
-};
+  if (router.isFallback) return <PageFallbackLoader />;
 
-const BlogPage = ({ preview, firstPageData }) => {
   return (
-    <>
+    <SWRConfig value={{ fallbackData: fallbackData }}>
       <Head>
         <title key="title">Blog - VoxyDev</title>
         <meta
@@ -90,9 +76,9 @@ const BlogPage = ({ preview, firstPageData }) => {
       </Head>
 
       <Container maxWidth="md">
-        <ArticleList firstPageData={firstPageData} />
+        <ArticleList />
       </Container>
-    </>
+    </SWRConfig>
   );
 };
 
@@ -102,19 +88,20 @@ BlogPage.getLayout = (page) => (
 
 export default BlogPage;
 
-export const getStaticProps = async ({
-  preview = false,
-}) => {
-  const firstPageData = overlayDrafts(
-    await getClient(preview).fetch(getPageQuery(1))
+export const getStaticProps = async () => {
+  const firstArticlePageQuery = listArticlesOnPage({
+    page: 1,
+    limit: ARTICLE_PAGE_LIMIT,
+  });
+  const firstPageData = await SanityCDNReadClient.fetch(
+    firstArticlePageQuery
   );
 
-  console.log('FIRST PAGE BLOGS', firstPageData);
-
   return {
+    revalidate:
+      process.env.NODE_ENV === 'production' ? 10 : false,
     props: {
-      preview,
-      firstPageData,
+      fallbackData: [firstPageData],
     },
   };
 };

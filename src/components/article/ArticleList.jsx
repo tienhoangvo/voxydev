@@ -13,14 +13,14 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import ArticleCard from './ArticleCard';
 import useArticles from '../../hooks/useArticles';
 
-const ArticleList = ({ firstPageData = [] }) => {
+const ArticleList = () => {
   const {
     articlePages,
     error,
     isLoadingMore,
     isReachingEnd,
     onLoadMore,
-  } = useArticles({ firstPageData });
+  } = useArticles();
 
   return (
     <Grid container columnSpacing={3} rowSpacing={4}>

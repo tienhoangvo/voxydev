@@ -1,6 +1,7 @@
-import { createClient } from 'next-sanity';
 import withEditorToken from '../configs/withEditorToken';
+import SanityClient from './SanityClient';
 
-const SanityEditClient = createClient(withEditorToken);
+const SanityEditClient =
+  SanityClient.withConfig(withEditorToken);
 
 export default SanityEditClient;

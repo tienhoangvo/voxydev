@@ -13,14 +13,14 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import VideoListItem from './VideoListItem';
 import useVideos from '../../hooks/useVideos';
 
-const VideoList = ({ firstPageData = [] }) => {
+const VideoList = () => {
   const {
     videoPages,
     error,
     isLoadingMore,
     isReachingEnd,
     onLoadMore,
-  } = useVideos({ firstPageData });
+  } = useVideos();
 
   return (
     <Grid container columnSpacing={3} rowSpacing={4}>
