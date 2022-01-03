@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { writeClient } from '../../src/lib/sanity/sanity.server';
+import SanityEditClient from '../../src/lib/sanity/clients/SanityEditClient';
 
 const contactHandler = (req, res) => {
   switch (req.method) {
@@ -36,7 +36,7 @@ const createContact = async (req, res) => {
     if (captchaValidationData.success) {
       // Create New Contact Info
 
-      const contact = await writeClient.create({
+      const contact = await SanityEditClient.create({
         _type: 'contact',
         name,
         email,

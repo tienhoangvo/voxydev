@@ -5,10 +5,13 @@ import {
 import defaultConfig from './configs/defaultConfig';
 import readWithCdn from './configs/readWithCdn';
 
-export const imageBuilder = createImageUrlBuilder({
+const sanityConfig = {
   ...defaultConfig,
   ...readWithCdn,
-});
+};
+
+export const imageBuilder =
+  createImageUrlBuilder(sanityConfig);
 
 export const urlForImage = (source) =>
   imageBuilder.image(source).auto('format').fit('max');
