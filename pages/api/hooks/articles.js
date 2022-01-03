@@ -11,7 +11,6 @@ const articlesWebhookHandler = (req, res) => {
     }
 
     default: {
-      console.log(req.method);
       res.status(404).json({
         message: `Cannot find ${req.method} ${req.url}`,
       });
@@ -21,12 +20,6 @@ const articlesWebhookHandler = (req, res) => {
 
 const onArticleCreated = (req, res) => {
   const articlesIndex = algoliaClient.initIndex('articles');
-
-  console.log('ALGOLIA_APP_ID', process.env.ALGOLIA_APP_ID);
-  console.log(
-    'ALGOLIA_ADMIN_API_KEY',
-    process.env.ALGOLIA_ADMIN_API_KEY
-  );
 
   const {
     _id,
@@ -38,8 +31,6 @@ const onArticleCreated = (req, res) => {
     publishedAt,
     heartsQuantity,
   } = req.body;
-
-  console.log('CREATED ARTICLE', req.body);
 
   return articlesIndex
     .saveObject({
@@ -77,8 +68,6 @@ const onArticleDeleted = (req, res) => {
     publishedAt,
     heartsQuantity,
   } = req.body;
-
-  console.log('DEBUG DELETED ARTICLE', req.body);
 
   return articlesIndex
     .deleteObject(_id)

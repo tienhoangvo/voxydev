@@ -6,22 +6,23 @@ import { useCallback, useMemo } from 'react';
 
 // @src
 
-import { sanityClientWithoutUseCdn } from '../lib/sanity/sanity.server';
-import { getUserFavoriteArticles } from '../lib/sanity/queries';
+import { listUserFavoriteArticles } from '../lib/sanity/queries/article';
+import SanityCDNReadClient from '../lib/sanity/clients/SanityCDNReadClient';
+
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 
 const useCurrentUserFavoriteArticles = ({
   currentUserId = '',
 }) => {
   const getKey = useCallback(() => {
     return currentUserId
-      ? getUserFavoriteArticles({
+      ? listUserFavoriteArticles({
           currentUserId,
         })
       : null;
   }, [currentUserId]);
-  const { data, error } = useSWR(getKey, (query) =>
-    sanityClientWithoutUseCdn.fetch(query)
-  );
+  const { data, error } = useSWR(getKey, sanityFetcher);
 
   const articles = useMemo(() => {
     if (!data) return [];

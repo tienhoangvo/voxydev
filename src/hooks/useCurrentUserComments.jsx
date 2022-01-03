@@ -1,17 +1,14 @@
 import useSWR from 'swr/immutable';
 import { useCallback, useMemo } from 'react';
-import { sanityClientWithoutUseCdn } from '../lib/sanity/sanity.server';
-import useCurrentUser from './useCurrentUser';
-import { getCurrentUserComments } from '../lib/sanity/queries';
 
-const fetcher = (query) =>
-  sanityClientWithoutUseCdn.fetch(query);
+import useCurrentUser from './useCurrentUser';
+import { getCurrentUserComments } from '../lib/sanity/queries/article';
+import SanityCDNReadClient from '../lib/sanity/clients/SanityCDNReadClient';
+
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 
 const useCurrentUserComments = ({ articleId }) => {
-  // list
-  // add
-  // delete
-
   const { currentUser } = useCurrentUser();
 
   const currentUserId = useMemo(() => {
@@ -31,10 +28,14 @@ const useCurrentUserComments = ({ articleId }) => {
     });
   }, [currentUserId, articleId]);
 
-  const { data, error, mutate } = useSWR(getKey, fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const { data, error, mutate } = useSWR(
+    getKey,
+    sanityFetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   const comments = useMemo(() => {
     if (!data) return [];
@@ -69,7 +70,7 @@ const useCurrentUserComments = ({ articleId }) => {
   };
 
   return {
-    comments,
+    comments: comments || [],
     loading,
     error,
     addComment,

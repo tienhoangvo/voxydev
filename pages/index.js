@@ -14,10 +14,12 @@ import SectionCard from '../src/components/home/SectionCard/SectionCard';
 
 // @src/contants
 import { HOME_SECTIONS } from '../src/constants';
-import sanityFetcher from '../src/lib/sanity/fetcher';
-import { getOwnerQuery } from '../src/lib/sanity/queries';
+import SanityCDNReadClient from './../src/lib/sanity/clients/SanityCDNReadClient';
+import { getOwnerQuery } from '../src/lib/sanity/queries/user';
 import { SWRConfig } from 'swr';
 
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 // test
 const Home = () => {
   return (

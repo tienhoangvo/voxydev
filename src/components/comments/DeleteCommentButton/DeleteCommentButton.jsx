@@ -2,26 +2,18 @@
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-// @mui/lab
-import LoadingButton from '@mui/lab/LoadingButton';
-
 import CircularProgress from '@mui/material/CircularProgress';
 // @mui/icons-material
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon from '@mui/icons-material/DeleteOutline';
 
 // @axios
 import axios from 'axios';
 
 // @react
-import {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-} from 'react';
+import { useState, useCallback } from 'react';
 
 // @src/hooks
-import useArticleComments from '../../../hooks/useArticleComments';
+
 import useCurrentUserComments from '../../../hooks/useCurrentUserComments';
 
 const DeleteCommentButton = ({ articleId, commentId }) => {
@@ -52,8 +44,8 @@ const DeleteCommentButton = ({ articleId, commentId }) => {
         disabled={deleteStatus === 'pending'}
         size="small"
         onClick={onCommentDeleteClick}
-        color="warning"
-        sx={{ border: 1, borderColor: 'divider' }}
+        color="error"
+        sx={{ border: 2, borderColor: 'error' }}
       >
         {deleteStatus === 'pending' ? (
           <CircularProgress

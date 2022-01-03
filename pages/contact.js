@@ -11,9 +11,13 @@ import Toolbar from '@mui/material/Toolbar';
 import MainLayout from '../src/layouts/MainLayout';
 import ContactForm from '../src/components/contact/ContactForm/ContactForm';
 import SocialMediaContact from '../src/components/contact/SocialMediaContact';
-import { getOwnerQuery } from '../src/lib/sanity/queries';
-import sanityFetcher from '../src/lib/sanity/fetcher';
+
+import { getOwnerQuery } from '../src/lib/sanity/queries/user';
+import SanityCDNReadClient from '../src/lib/sanity/clients/SanityCDNReadClient';
 import { SWRConfig } from 'swr';
+
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 
 const Contact = () => {
   return (

@@ -15,7 +15,6 @@ const PageLoadingBar = () => {
     let timerId;
 
     const handleRouteChange = (url) => {
-      console.log('handleRouteChange', url);
       gtag.pageview(url);
 
       timerId = setTimeout(() => {
@@ -24,8 +23,6 @@ const PageLoadingBar = () => {
     };
 
     Router.events.on('routeChangeStart', (url) => {
-      console.log('debug beforeHistoryChange');
-
       if (timerId) {
         clearTimeout(timerId);
       }

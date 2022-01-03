@@ -26,18 +26,13 @@ const repliesHandler = (req, res) => {
 };
 
 const createReply = async (req, res) => {
-  console.log('req.query', req.query);
   const { commentId } = req.query;
 
   const { content, createdAt, repliedTo } = req.body;
 
-  console.log(req.body);
-
   try {
     const repliedToUser =
       await SanityEditClient.getDocument(repliedTo);
-
-    console.log('repliedToUser', repliedToUser);
 
     const reply = await createNewReply({
       currentUser: req.currentUser,
@@ -47,7 +42,6 @@ const createReply = async (req, res) => {
       commentId,
     });
 
-    console.log('new reply created', reply);
     res.status(201).json(reply);
   } catch (error) {
     console.error(error);
@@ -64,8 +58,6 @@ const deleteReply = async (req, res) => {
   const { commentId, replyId } = req.query;
 
   const { _id: userId } = req.currentUser;
-
-  console.log(req.query);
 
   try {
     await deleteAReply({

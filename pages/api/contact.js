@@ -33,8 +33,6 @@ const createContact = async (req, res) => {
         }
       );
 
-    console.log(captchaValidationData);
-
     if (captchaValidationData.success) {
       // Create New Contact Info
 

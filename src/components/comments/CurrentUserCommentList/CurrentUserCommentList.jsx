@@ -15,6 +15,8 @@ const CurrentUserCommentList = ({ articleId }) => {
     articleId,
   });
 
+  console.log('DEBUG comments comments', comments);
+
   const renderCommentItem = useCallback(() => {
     if (comments.length < 0) return null;
 

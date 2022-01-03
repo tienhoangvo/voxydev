@@ -1,10 +1,6 @@
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Stack from '@mui/material/Stack';
-
-// @next
-import { useRouter } from 'next/router';
 
 // @src/components
 import CommentList from '../comments/CommentList/CommentList';
@@ -14,13 +10,7 @@ import useArticle from '../../hooks/useArticle';
 import CurrentUserComments from '../comments/CurrentUserComments/CurrentUserComments';
 
 const BlogComments = () => {
-  const { query } = useRouter();
-
-  const { slug } = query;
-
-  const { article } = useArticle({
-    slug,
-  });
+  const { article } = useArticle();
 
   return (
     <Card

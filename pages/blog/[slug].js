@@ -2,7 +2,7 @@
 import Head from 'next/head';
 
 // @swr
-import { SWRConfig } from 'swr';
+import { SWRConfig, useSWRConfig } from 'swr';
 
 // @mui/material
 
@@ -13,29 +13,27 @@ import Grid from '@mui/material/Grid';
 import SaveIcon from '@mui/icons-material/Save';
 
 import MainLayout from '../../src/layouts/MainLayout';
-import {
-  blogSlugsQuery,
-  getArticleBySlugQuery,
-  getReleventArticlesByCategories,
-} from '../../src/lib/sanity/queries';
-import {
-  getClient,
-  sanityClient,
-} from '../../src/lib/sanity/sanity.server';
+import { blogSlugsQuery } from '../../src/lib/sanity/queries/article';
+
 import BlogArticle from '../../src/components/blog/BlogArticle';
 import BlogComments from '../../src/components/blog/BlogComments';
 import useArticle from '../../src/hooks/useArticle';
-import useSlug from '../../src/hooks/useSlug';
+
 import urlFor from '../../src/lib/sanity/urlFor';
 import RelevantArticles from '../../src/components/article/RelevantArticles';
 import { useRouter } from 'next/router';
 import LoadingButton from '@mui/lab/LoadingButton';
+import SanityCDNReadClient from '../../src/lib/sanity/clients/SanityCDNReadClient';
+import {
+  getArticleCommentsOnPage,
+  getArticleDetailsBySlug,
+  getArticlePageDataBySlug,
+  listRelevantArticlesByArticleId,
+} from '../../src/lib/sanity/queries/article';
+import { COMMENT_PAGE_LIMIT } from '../../src/lib/sanity/queries/constants';
 
 const BlogPostPageContent = () => {
-  const slug = useSlug();
-
-  const { article } = useArticle({ slug });
-
+  const { article } = useArticle();
   return (
     <>
       <Head>
@@ -78,7 +76,7 @@ const BlogPostPageContent = () => {
           key="og:image"
           content={
             article
-              ? urlFor(article.imageCover)
+              ? urlFor(article?.imageCover)
                   .width(480)
                   .height(360)
                   .fit('max')
@@ -169,58 +167,48 @@ BlogPostPage.getLayout = (page) => (
   <MainLayout>{page}</MainLayout>
 );
 
-export const getStaticProps = async ({
-  params,
-  preview = false,
-}) => {
+export const getStaticProps = async ({ params }) => {
   const { slug } = params;
 
   console.log(`Fetcing article slug: ${slug}`);
 
-  const article = await getClient(preview).fetch(
-    getArticleBySlugQuery(slug)
-  );
+  const { comments, relevantArticles, ...article } =
+    await SanityCDNReadClient.fetch(
+      getArticlePageDataBySlug({ slug })
+    );
+
+  console.log('DEBUG article');
+
+  // console.log(article);
 
   if (!article) return { notFound: true };
-
-  console.log(`Succesfully fetched article slug: ${slug}`);
-
-  console.log(
-    'Fetching relevant articles',
-    getReleventArticlesByCategories({
-      slug,
-      categories: article.categories.map(({ _id }) => _id),
-    })
-  );
-
-  const articles = await getClient(preview).fetch(
-    getReleventArticlesByCategories({
-      slug,
-      categories: article.categories.map(({ _id }) => _id),
-    }),
-    {}
-  );
-  console.log('Successfully fetch relevant articles');
 
   return {
     props: {
       fallback: {
-        [getArticleBySlugQuery(article.slug)]:
-          article || null,
+        [getArticleDetailsBySlug({ slug })]: article,
 
-        [getReleventArticlesByCategories({
-          slug,
-          categories: article.categories.map(
+        [getArticleCommentsOnPage({
+          articleId: article._id,
+          page: 1,
+          limit: COMMENT_PAGE_LIMIT,
+        })]: comments,
+
+        [listRelevantArticlesByArticleId({
+          articleId: article._id,
+          articleCategories: article.categories.map(
             ({ _id }) => _id
           ),
-        })]: articles || [],
+        })]: relevantArticles,
       },
     },
   };
 };
 
 export const getStaticPaths = async () => {
-  const paths = await sanityClient.fetch(blogSlugsQuery);
+  const paths = await SanityCDNReadClient.fetch(
+    blogSlugsQuery
+  );
 
   return {
     paths: paths.map((slug) => ({ params: { slug } })),

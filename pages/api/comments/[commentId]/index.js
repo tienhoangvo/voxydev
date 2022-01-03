@@ -27,8 +27,6 @@ const deleteComment = async (req, res) => {
       commentId
     );
 
-    console.log(comment);
-
     if (!comment) {
       return res.status(404).json({
         message: `There is no comment with ID: ${commentId}`,

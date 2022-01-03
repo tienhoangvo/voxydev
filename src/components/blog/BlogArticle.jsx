@@ -24,13 +24,10 @@ import useArticle from '../../hooks/useArticle';
 import HeartButton from '../hearts/HeartButton';
 import ShareButton from '../share/ShareButton';
 import usePageHits from '../../hooks/usePageHits';
+import { useSWRConfig } from 'swr';
 
 const BlogArticle = () => {
-  const { query } = useRouter();
-
-  const { slug } = query;
-
-  const { article } = useArticle({ slug });
+  const { article } = useArticle();
 
   const pageHits = usePageHits();
 

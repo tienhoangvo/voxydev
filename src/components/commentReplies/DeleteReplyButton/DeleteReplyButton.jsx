@@ -1,5 +1,5 @@
 //@mui/icons-material
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon from '@mui/icons-material/DeleteOutline';
 
 // @mui/material
 import Tooltip from '@mui/material/Tooltip';
@@ -41,8 +41,8 @@ const DeleteReplyButton = ({ replyId, commentId }) => {
         disabled={deleteStatus === 'pending'}
         size="small"
         onClick={onReplyDeleteClick}
-        color="warning"
-        sx={{ border: 1, borderColor: 'divider' }}
+        color="error"
+        sx={{ border: 2, borderColor: 'error' }}
       >
         {deleteStatus === 'pending' ? (
           <CircularProgress

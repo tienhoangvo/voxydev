@@ -82,13 +82,6 @@ export default NextAuth({
       profile,
       isNewUser,
     }) {
-      console.log({
-        token,
-        user,
-        account,
-        profile,
-        isNewUser,
-      });
       return token;
     },
   },

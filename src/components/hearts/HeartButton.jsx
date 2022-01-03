@@ -28,10 +28,6 @@ const HeartButton = ({
     if (!currentUser.favoriteArticles) return false;
     if (!currentUser.favoriteArticles.length) return false;
 
-    console.log(
-      'Debug favoriteArticles',
-      currentUser.favoriteArticles
-    );
     return currentUser.favoriteArticles.some(
       (articleRef) => articleRef._ref === articleId
     );
@@ -58,7 +54,6 @@ const HeartButton = ({
         const user = res.data;
         setStatus('heart success');
 
-        console.log('Heart success', user);
         mutate(user, {
           populateCache: true,
           revalidate: false,
@@ -72,7 +67,6 @@ const HeartButton = ({
         const user = res.data;
         setStatus('unheart success');
 
-        console.log('Unheart success', user);
         mutate(user);
       });
   };

@@ -1,33 +1,37 @@
-// @swr
-import useSWR from 'swr';
+import useSWR from 'swr/immutable';
 
-// @src/lib/utils
-import sanityFetcher from '../lib/sanity/fetcher';
-import {
-  getArticleBySlugQuery,
-  getReleventArticlesByCategories,
-} from './../lib/sanity/queries';
+import { listRelevantArticlesByArticleId } from '../lib/sanity/queries/article';
 import useArticle from './useArticle';
+import SanityCDNReadClient from '../lib/sanity/clients/SanityCDNReadClient';
 
-const useRelevantArticles = ({ slug }) => {
-  const { article } = useArticle({ slug });
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 
-  const {
-    data: articles,
-    error,
-    mutate,
-  } = useSWR(
-    getReleventArticlesByCategories({
-      slug,
-      categories: article?.categories.map(({ _id }) => _id),
+const getKey = ({ articleId, articleCategories }) =>
+  articleId
+    ? listRelevantArticlesByArticleId({
+        articleId,
+        articleCategories,
+      })
+    : null;
+
+const useRelevantArticles = () => {
+  const { article } = useArticle();
+
+  const { data, error, mutate } = useSWR(
+    getKey({
+      articleId: article?._id,
+      articleCategories: article?.categories.map(
+        ({ _id }) => _id
+      ),
     }),
     sanityFetcher
   );
 
-  const loading = !articles && !error;
+  const loading = !data && !error;
 
   return {
-    articles: articles || [],
+    articles: data || [],
     loading,
     error,
     mutate,

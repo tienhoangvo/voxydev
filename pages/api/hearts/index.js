@@ -6,7 +6,6 @@ import {
 } from '../../../src/lib/sanity/mutations/heart';
 
 const heartsHandler = (req, res) => {
-  console.log(`${req.method} ${req.url}`);
   const { method } = req;
 
   switch (method) {
@@ -36,12 +35,10 @@ const createHeart = async (req, res) => {
       currentUser: req.currentUser,
     });
 
-    console.log('user', user);
-
     res.json(user);
   } catch (error) {
     console.error(error);
-    console.log(error);
+
     res.status(500).json({
       message:
         'Something went wrong when user hearting an article',

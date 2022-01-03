@@ -18,9 +18,7 @@ const RelevantArticles = () => {
   const { article } = useArticle({
     slug: query.slug,
   });
-  const { articles } = useRelevantArticles({
-    slug: query.slug,
-  });
+  const { articles } = useRelevantArticles();
 
   const renderedArtiles = articles.map((article) => {
     return (

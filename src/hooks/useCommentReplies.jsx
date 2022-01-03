@@ -1,22 +1,23 @@
 import useSWR from 'swr/immutable';
 import { useMemo, useCallback } from 'react';
 
-import { getRepliesByCommentId } from '../lib/sanity/queries';
-import { sanityClientWithoutUseCdn } from '../lib/sanity/sanity.server';
+import SanityCDNReadClient from './../lib/sanity/clients/SanityCDNReadClient';
+import { listRepliesByCommentId } from '../lib/sanity/queries/articleComment';
 
-const fetcher = (query) =>
-  sanityClientWithoutUseCdn.fetch(query);
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 
 const useCommentReplies = ({ commentId }) => {
   const getKey = useCallback(() => {
     if (!commentId) return undefined;
 
-    return getRepliesByCommentId({ commentId });
+    return listRepliesByCommentId({ commentId });
   }, [commentId]);
 
-  const { data, error, mutate } = useSWR(getKey, fetcher, {
-    revalidateIfStale: false,
-  });
+  const { data, error, mutate } = useSWR(
+    getKey,
+    sanityFetcher
+  );
 
   const replies = useMemo(() => data || [], [data]);
 

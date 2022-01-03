@@ -11,8 +11,6 @@ import HitNoResult from './HitNoResult';
 import VideoHit from './VideoHit';
 
 const Hits = ({ hits, onSearchClose }) => {
-  console.log('Hits onSearchClose', onSearchClose);
-
   const renderedHitItems = useMemo(() => {
     if (hits.length === 0) return <HitNoResult />;
 

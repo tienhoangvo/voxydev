@@ -19,7 +19,7 @@ const BlogPage = ({ fallbackData }) => {
   if (router.isFallback) return <PageFallbackLoader />;
 
   return (
-    <SWRConfig value={{ fallbackData: fallbackData }}>
+    <SWRConfig value={{ fallbackData }}>
       <Head>
         <title key="title">Blog - VoxyDev</title>
         <meta

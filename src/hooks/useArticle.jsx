@@ -1,16 +1,26 @@
 // @swr
-import useSWR from 'swr';
+import useSWR from 'swr/immutable';
+import SanityCDNReadClient from '../lib/sanity/clients/SanityCDNReadClient';
 
 // @src/lib/utils
-import sanityFetcher from '../lib/sanity/fetcher';
-import { getArticleBySlugQuery } from './../lib/sanity/queries';
 
-const useArticle = ({ slug }) => {
+import { getArticleDetailsBySlug } from '../lib/sanity/queries/article';
+import useSlug from './useSlug';
+
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
+
+const getKey = (slug) => getArticleDetailsBySlug({ slug });
+const useArticle = () => {
+  const slug = useSlug();
+
   const {
     data: article,
     error,
     mutate,
-  } = useSWR(getArticleBySlugQuery(slug), sanityFetcher);
+  } = useSWR(getKey(slug), sanityFetcher, {
+    revalidateOnMount: false,
+  });
 
   const loading = !article && !error;
 

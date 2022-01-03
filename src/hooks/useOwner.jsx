@@ -1,7 +1,11 @@
 import useSWRImmutable from 'swr/immutable';
-import sanityFetcher from '../lib/sanity/fetcher';
-import { getOwnerQuery } from '../lib/sanity/queries';
 
+import { getOwnerQuery } from '../lib/sanity/queries/user';
+
+import SanityCDNReadClient from '../lib/sanity/clients/SanityCDNReadClient';
+
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 const useOwner = () => {
   const getKey = () => {
     return getOwnerQuery(process.env.NEXT_PUBLIC_OWNER_ID);

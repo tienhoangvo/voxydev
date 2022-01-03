@@ -11,7 +11,6 @@ const videosWebhookHandler = (req, res) => {
     }
 
     default: {
-      console.log(req.method);
       res.status(404).json({
         message: `Cannot find ${req.method} ${req.url}`,
       });
@@ -22,16 +21,8 @@ const videosWebhookHandler = (req, res) => {
 const onVideoCreated = (req, res) => {
   const videoIndex = algoliaClient.initIndex('videos');
 
-  console.log('ALGOLIA_APP_ID', process.env.ALGOLIA_APP_ID);
-  console.log(
-    'ALGOLIA_ADMIN_API_KEY',
-    process.env.ALGOLIA_ADMIN_API_KEY
-  );
-
   const { _id, _type, title, excerpt, thumbnail, url } =
     req.body;
-
-  console.log('CREATED VIDEO', req.body);
 
   return videoIndex
     .saveObject({
@@ -58,7 +49,7 @@ const onVideoCreated = (req, res) => {
 const onVideoDeleted = (req, res) => {
   const videoIndex = algoliaClient.initIndex('videos');
 
-  const { _id, title, excerpt, thumbnail, url } = req.body;
+  const { _id } = req.body;
 
   console.log('DEBUG DELETED VIDEO', req.body);
 

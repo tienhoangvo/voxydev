@@ -1,23 +1,30 @@
 // @swr
 import useSWRInfinite from 'swr/infinite';
 
-import {
-  getOtherPeopleComments,
-  getPaginationCommentsByArticleId,
-} from '../lib/sanity/queries';
+import { useMemo, useCallback } from 'react';
 
-import {
-  useMemo,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import { sanityClientWithoutUseCdn } from '../lib/sanity/sanity.server';
 import useCurrentUser from './useCurrentUser';
+import { useSWRConfig } from 'swr';
+import SanityCDNReadClient from './../lib/sanity/clients/SanityCDNReadClient';
 
-const COMMENTS_LIMIT = 6;
+import { COMMENT_PAGE_LIMIT } from './../lib/sanity/queries/constants';
+
+import { getArticleCommentsOnPage } from '../lib/sanity/queries/article';
+const sanityFetcher = (query) =>
+  SanityCDNReadClient.fetch(query);
 const useArticleComments = ({ articleId }) => {
   const { currentUser } = useCurrentUser();
+
+  const { fallback } = useSWRConfig();
+
+  const comments =
+    fallback[
+      getArticleCommentsOnPage({
+        page: 1,
+        limit: COMMENT_PAGE_LIMIT,
+        articleId,
+      })
+    ];
 
   const currentUserId = useMemo(() => {
     if (!currentUser) return undefined;
@@ -29,12 +36,11 @@ const useArticleComments = ({ articleId }) => {
     (pageIndex, previousPageData) => {
       if (previousPageData && !previousPageData.length)
         return null;
-      return getPaginationCommentsByArticleId({
+      return getArticleCommentsOnPage({
+        page: pageIndex + 1,
+        limit: COMMENT_PAGE_LIMIT,
         articleId,
         currentUserId,
-        startIndex: COMMENTS_LIMIT * pageIndex,
-        endIndex:
-          COMMENTS_LIMIT * pageIndex + COMMENTS_LIMIT - 1,
       });
     },
     [articleId, currentUserId]
@@ -44,7 +50,15 @@ const useArticleComments = ({ articleId }) => {
     useSWRInfinite(
       getKey,
 
-      (query) => sanityClientWithoutUseCdn.fetch(query)
+      sanityFetcher,
+
+      {
+        fallbackData: [comments],
+        revalidateFirstPage: false,
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnMount: false,
+      }
     );
 
   const commentsPages = useMemo(() => data || [], [data]);
@@ -63,7 +77,7 @@ const useArticleComments = ({ articleId }) => {
     () =>
       isEmpty ||
       (data &&
-        data[data.length - 1]?.length < COMMENTS_LIMIT),
+        data[data.length - 1]?.length < COMMENT_PAGE_LIMIT),
     [isEmpty, data]
   );
 

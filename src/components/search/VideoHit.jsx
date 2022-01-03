@@ -8,7 +8,6 @@ import Avatar from '@mui/material/Avatar';
 import Highlight from './Highlight';
 
 const VideoHit = ({ hit, onSearchClose }) => {
-  console.log('Video Hit', hit);
   return (
     <ListItemButton
       dense
