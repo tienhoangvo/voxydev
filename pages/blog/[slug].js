@@ -2,7 +2,7 @@
 import Head from 'next/head';
 
 // @swr
-import { SWRConfig, useSWRConfig } from 'swr';
+import { SWRConfig } from 'swr';
 
 // @mui/material
 
@@ -170,6 +170,7 @@ BlogPostPage.getLayout = (page) => (
 export const getStaticProps = async ({ params }) => {
   const { slug } = params;
 
+  console.log(process.env.NODE_ENV);
   console.log(`Fetcing article slug: ${slug}`);
 
   const { comments, relevantArticles, ...article } =

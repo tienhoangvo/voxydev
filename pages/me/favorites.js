@@ -10,8 +10,6 @@ import MainLayout from '../../src/layouts/MainLayout';
 
 // @src/components
 
-import ArticleList from '../../src/components/article/ArticleList';
-
 import FavoriteArticles from '../../src/components/hearts/FavoriteArticles';
 
 const BlogPage = () => {

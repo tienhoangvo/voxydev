@@ -127,5 +127,5 @@ export const listUserFavoriteArticles = ({
   currentUserId,
 }) =>
   groq`*[_type == "user" && _id == "${currentUserId}"] [0]{
-  "favoriteArticles": favoriteArticles[]->{${articleFields}} 
+  "favoriteArticles": favoriteArticles[]->{${ARTICLE_FIELDS}} 
 }`;

@@ -15,6 +15,10 @@ const sanityFetcher = (query) =>
 const useCurrentUserFavoriteArticles = ({
   currentUserId = '',
 }) => {
+  console.log(
+    'debug useCurrentUserFavoriteArticles',
+    currentUserId
+  );
   const getKey = useCallback(() => {
     return currentUserId
       ? listUserFavoriteArticles({

@@ -24,6 +24,8 @@ const FavoriteArticles = () => {
   const { currentUser, loading: currentUserLoading } =
     useCurrentUser();
 
+  console.log('debug FavoriteArticles', currentUser);
+
   const { articles, loading, error } =
     useCurrentUserFavoriteArticles({
       currentUserId: currentUser?._id,
