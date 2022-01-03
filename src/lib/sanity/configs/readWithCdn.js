@@ -1,3 +1,3 @@
 export default {
-  useCdn: process.env.NODE_ENV === 'production',
+  useCdn: process.env.NODE_ENV !== 'development',
 };

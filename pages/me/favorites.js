@@ -2,7 +2,7 @@
 import Head from 'next/head';
 
 // @mui/material
-import Stack from '@mui/material/Stack';
+
 import Container from '@mui/material/Container';
 
 // @src/layouts/
