@@ -15,10 +15,7 @@ import axios from 'axios';
 
 import useCurrentUser from '../../hooks/useCurrentUser';
 
-const HeartButton = ({
-  articleId = '',
-  heartsQuantity = 0,
-}) => {
+const HeartButton = ({ articleId = '' }) => {
   const { currentUser, mutate } = useCurrentUser();
   const [status, setStatus] = useState('idle');
 
@@ -33,8 +30,8 @@ const HeartButton = ({
     );
   }, [articleId, currentUser]);
 
-  const tooltipTitle = useMemo(() => {
-    if (!currentUser) return 'Login to heart this';
+  const title = useMemo(() => {
+    if (!currentUser) return 'Login to heart';
 
     return hearted ? 'Unheart this' : 'Heart this';
   }, [hearted, currentUser]);
@@ -85,7 +82,6 @@ const HeartButton = ({
 
   return (
     <LoadingButton
-      title={tooltipTitle}
       size="small"
       color="heart"
       variant="outlined"
@@ -93,7 +89,7 @@ const HeartButton = ({
       startIcon={buttonIcon}
       onClick={onButtonClick}
     >
-      {heartsQuantity}
+      {title}
     </LoadingButton>
   );
 };

@@ -1,4 +1,3 @@
-// @mui/material
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
@@ -6,25 +5,17 @@ import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
 import Avatar from '@mui/material/Avatar';
 
-// @next
-import { useRouter } from 'next/router';
-
-// @src/components
 import Link from '../Link';
 import BlogContent from '../blogContent/BlogContent';
 
-// @src/lib/utils
 import timeAgoFormat from '../../lib/utils/timeAgoFormat';
 import urlFor from '../../lib/sanity/urlFor';
 
-// @src/hooks
 import useArticle from '../../hooks/useArticle';
 
-// @src/components
 import HeartButton from '../hearts/HeartButton';
 import ShareButton from '../share/ShareButton';
 import usePageHits from '../../hooks/usePageHits';
-import { useSWRConfig } from 'swr';
 
 const BlogArticle = () => {
   const { article } = useArticle();
@@ -48,17 +39,22 @@ const BlogArticle = () => {
           component: 'h1',
           variant: 'h4',
         }}
-        subheader={`${pageHits} views`}
         sx={{
           borderBottom: 1,
           borderColor: (theme) =>
             theme.palette.background.secondary,
         }}
-        subheader={`${pageHits} views · ${timeAgoFormat(
+        subheader={`${
+          article?.heartsQuantity
+        } hearts · ${pageHits} views · ${timeAgoFormat(
           article?.publishedAt
         )}`}
         titleTypographyProps={{
           fontSize: { xs: '1.4rem' },
+        }}
+        subheaderTypographyProps={{
+          fontWeight: '500',
+          letterSpacing: 1,
         }}
       />
       <CardHeader
@@ -104,10 +100,7 @@ const BlogArticle = () => {
         <BlogContent content={article?.content} />
       </CardContent>
       <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <HeartButton
-          articleId={article._id}
-          heartsQuantity={article.heartsQuantity}
-        />
+        <HeartButton articleId={article._id} />
 
         <ShareButton
           title={article.title}
@@ -115,7 +108,6 @@ const BlogArticle = () => {
           hashtags={article.categories.map((c) =>
             c.title.split(' ').join('')
           )}
-          quote={article.excerpt}
         />
       </CardActions>
     </Card>

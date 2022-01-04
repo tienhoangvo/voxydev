@@ -8,8 +8,13 @@ import DarkPalette from './palettes/DarkPalette';
 const theme = (mode = 'light') =>
   createTheme({
     palette: mode === 'light' ? LightPalette : DarkPalette,
+
     typography: {
       fontFamily: "'Philosopher', sans-serif",
+      button: {
+        textTransform: 'capitalize',
+        fontWeight: 'bold',
+      },
     },
   });
 

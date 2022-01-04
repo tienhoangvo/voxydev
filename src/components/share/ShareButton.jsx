@@ -31,7 +31,6 @@ const ShareButton = ({
   url = '',
   title = '',
   hashtags = [],
-  quote = '',
 }) => {
   const slug = useSlug();
 
@@ -128,9 +127,6 @@ const ShareButton = ({
                   <FacebookIcon fontSize="small" />
                 }
               >
-                <FacebookShareCount url={shareUrl}>
-                  {(count) => count}
-                </FacebookShareCount>
                 Facebook
               </Button>
             </FacebookShareButton>
