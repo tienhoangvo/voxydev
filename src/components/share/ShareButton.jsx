@@ -103,8 +103,7 @@ const ShareButton = ({
 
             <FacebookShareButton
               url={shareUrl}
-              title={title}
-              quote={quote}
+              quote={title}
               hashtag={hashtags[0]}
             >
               <Button
