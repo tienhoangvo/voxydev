@@ -1,4 +1,3 @@
-// @mui/material
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
@@ -9,33 +8,46 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 
-// @mui/icons-material
 import ShareIcon from '@mui/icons-material/Share';
 import CloseIcon from '@mui/icons-material/Close';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-// @react
+import {
+  FacebookShareButton,
+  FacebookShareCount,
+  TwitterShareButton,
+  LinkedinShareButton,
+} from 'react-share';
+
 import { useCallback, useMemo, useState } from 'react';
 
-// @next
-import { useRouter } from 'next/router';
-
-// @src/components
 import ContentCopyButton from '../utils/ContentCopyButton';
+import useSlug from '../../hooks/useSlug';
+import { useMediaQuery } from '@mui/material';
 
-const ShareButton = () => {
-  const { query } = useRouter();
+const ShareButton = ({
+  url = '',
+  title = '',
+  hashtags = [],
+  quote = '',
+}) => {
+  const slug = useSlug();
 
-  const { slug } = query;
+  const matchedSMDown = useMediaQuery((theme) =>
+    theme.breakpoints.down('sm')
+  );
   const [openShareDialog, setOpenShareDialog] =
     useState(false);
 
-  const link = useMemo(() => {
-    if (typeof window === 'undefined') return slug;
+  const shareUrl = useMemo(() => {
+    if (url) return url;
+
+    if (typeof window === 'undefined') return url;
 
     return `${window.location.href}`;
-  }, [slug]);
+  }, [url, slug]);
 
   const onShareDialogClose = () => {
     setOpenShareDialog(false);
@@ -62,6 +74,7 @@ const ShareButton = () => {
         onClose={onShareDialogClose}
         maxWidth="sm"
         fullWidth
+        fullScreen={matchedSMDown}
       >
         <CardHeader
           title="Share"
@@ -72,54 +85,76 @@ const ShareButton = () => {
           }
         />
         <CardContent>
-          <Stack direction={'row'} spacing={1}>
-            <IconButton
-              sx={{ border: 1, borderColor: 'twitter' }}
-              size="large"
-              color="twitter"
-              href={`https://twitter.com/intent/tweet?url=${link}`}
-              aria-label="twitter share"
-              title="Twitter"
-              target="_blank"
+          <Stack spacing={1}>
+            <TwitterShareButton
+              url={shareUrl}
+              title={title}
+              hashtags={hashtags}
             >
-              <TwitterIcon />
-            </IconButton>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="twitter"
+                startIcon={<TwitterIcon fontSize="small" />}
+              >
+                Twitter
+              </Button>
+            </TwitterShareButton>
 
-            <IconButton
-              sx={{ border: 1, borderColor: 'facebook' }}
-              size="large"
-              color="facebook"
-              component={'a'}
-              rel="noopener"
-              href={`https://www.facebook.com/dialog/share?app_id=${process.env.NEXT_PUBLIC_FB_APP_ID}&display=popup&href=${link}`}
-              target="_blank"
-              aria-label="facebook share"
-              title="Facebook"
+            <FacebookShareButton
+              url={shareUrl}
+              title={title}
+              quote={quote}
+              hashtag={hashtags[0]}
             >
-              <FacebookIcon />
-            </IconButton>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="facebook"
+                startIcon={
+                  <FacebookIcon fontSize="small" />
+                }
+              >
+                <FacebookShareCount>
+                  {(count) => count}
+                </FacebookShareCount>
+                Facebook
+              </Button>
+            </FacebookShareButton>
+
+            <LinkedinShareButton url={shareUrl}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="linkedin"
+                startIcon={
+                  <LinkedInIcon fontSize="small" />
+                }
+              >
+                LinkedIn
+              </Button>
+            </LinkedinShareButton>
+            <TextField
+              fullWidth
+              inputMode="url"
+              aria-readonly="true"
+              defaultValue={shareUrl}
+              disabled
+              InputProps={{
+                sx: {
+                  fontSize: '.875rem',
+                },
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentCopyButton
+                      content={shareUrl}
+                      message="Link copied to clipboard"
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Stack>
-          <TextField
-            fullWidth
-            inputMode="url"
-            aria-readonly="true"
-            defaultValue={link}
-            disabled
-            InputProps={{
-              sx: {
-                fontSize: '.875rem',
-                mt: 1,
-              },
-              endAdornment: (
-                <InputAdornment position="end">
-                  <ContentCopyButton
-                    content={link}
-                    message="Link copied to clipboard"
-                  />
-                </InputAdornment>
-              ),
-            }}
-          />
         </CardContent>
       </Dialog>
     </>

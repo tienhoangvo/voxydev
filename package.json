@@ -36,6 +36,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.16.0",
     "react-instantsearch-dom": "^6.12.1",
+    "react-share": "^4.4.0",
     "react-youtube": "^7.13.1",
     "swr": "^1.1.2",
     "yup": "^0.32.9"

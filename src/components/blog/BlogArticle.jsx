@@ -109,7 +109,14 @@ const BlogArticle = () => {
           heartsQuantity={article.heartsQuantity}
         />
 
-        <ShareButton />
+        <ShareButton
+          title={article.title}
+          url={`${process.env.NEXT_PUBLIC_WEB_APP_URL}/blog/${article.slug}`}
+          hashtags={article.categories.map((c) =>
+            c.title.split(' ').join('')
+          )}
+          quote={article.excerpt}
+        />
       </CardActions>
     </Card>
   );
