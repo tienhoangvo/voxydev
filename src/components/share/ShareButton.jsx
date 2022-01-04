@@ -77,12 +77,24 @@ const ShareButton = ({
         fullScreen={matchedSMDown}
       >
         <CardHeader
+          component="header"
           title="Share"
+          sx={{
+            borderBottom: 2,
+            borderColor: 'divider',
+            p: (theme) => theme.spacing(1, 2),
+          }}
           action={
             <IconButton onClick={onShareDialogClose}>
-              <CloseIcon />
+              <CloseIcon size="small" />
             </IconButton>
           }
+          titleTypographyProps={{
+            sx: {
+              fontSize: '1rem',
+              fontWeight: 700,
+            },
+          }}
         />
         <CardContent>
           <Stack spacing={1}>
@@ -92,6 +104,7 @@ const ShareButton = ({
               hashtags={hashtags}
             >
               <Button
+                component={'div'}
                 fullWidth
                 variant="outlined"
                 color="twitter"
@@ -104,9 +117,10 @@ const ShareButton = ({
             <FacebookShareButton
               url={shareUrl}
               quote={title}
-              hashtag={hashtags[0]}
+              hashtag={`#${hashtags[0]}`}
             >
               <Button
+                component={'div'}
                 fullWidth
                 variant="outlined"
                 color="facebook"
@@ -123,6 +137,7 @@ const ShareButton = ({
 
             <LinkedinShareButton url={shareUrl}>
               <Button
+                component={'div'}
                 fullWidth
                 variant="outlined"
                 color="linkedin"
