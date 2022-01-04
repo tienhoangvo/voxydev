@@ -115,7 +115,7 @@ const ShareButton = ({
                   <FacebookIcon fontSize="small" />
                 }
               >
-                <FacebookShareCount>
+                <FacebookShareCount url={shareUrl}>
                   {(count) => count}
                 </FacebookShareCount>
                 Facebook
