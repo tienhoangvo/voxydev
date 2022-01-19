@@ -5,6 +5,6 @@ module.exports = withPWA({
   pwa: {
     dest: 'public',
     runtimeCaching,
-    disable: false
+    disable: process.env.NODE_ENV !== 'production'
   },
 });
