@@ -1,44 +1,13 @@
-# Next.js example
+# VoxyDev
+A personal site of Tien H. Vo, who loves to use and share tips about MUI (Material-UI) and Next.js.
 
-## How to use
+## I write Articles
+I started writing my very first article in November in 2021. I love sharing about my experiences, understanding about React and Next.js.
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
+## I do videos on YouTube
+I have a small YouTube channel named VoxyDev. I weekly create tutorial videos on Web Development.
 
-<!-- #default-branch-switch -->
+## I create Courses
+I love to teach, and I've create courses on Web Development, JavaScript, React, and more. I love being able to put the things I've learned into a package for others to learn from.
 
-```sh
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/nextjs
-cd nextjs
-```
-
-Install it and run:
-
-```sh
-npm install
-npm run dev
-```
-
-or:
-
-<!-- #default-branch-switch -->
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui-org/material-ui/tree/master/examples/nextjs)
-
-## The idea behind the example
-
-The project uses [Next.js](https://github.com/zeit/next.js), which is a framework for server-rendered React apps.
-It includes `@mui/material` and its peer dependencies, including `emotion`, the default style engine in MUI v5.
-If you prefer, you can [use styled-components instead](https://mui.com/guides/interoperability/#styled-components).
-
-## The link component
-
-Next.js has [a custom Link component](https://nextjs.org/docs/api-reference/next/link).
-The example folder provides adapters for usage with MUI.
-More information [in the documentation](https://mui.com/guides/routing/#next-js).
-
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation, continuing browsing it from the [templates](https://mui.com/getting-started/templates/) section.
+[HOMEPAGE](https://voxydev.vercel.app)
