@@ -43,10 +43,5 @@
     "build": "next build",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
-  },
-  "devDependencies": {
-    "@swc/cli": "^0.1.55",
-    "@swc/core": "^1.2.133",
-    "@swc/core-win32-x64-msvc": "^1.2.133"
   }
 }
