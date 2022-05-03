@@ -7,7 +7,7 @@ const usePageHits = () => {
 
   const [pageHits, setPageHits] = useState(0);
 
-  useEffect(async () => {
+  const fetchPageHits = async () => {
     if (!slug) return;
 
     try {
@@ -20,6 +20,11 @@ const usePageHits = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  useEffect(() => {
+    if (!slug) return;
+
+    fetchPageHits();
   }, [slug]);
 
   return pageHits;

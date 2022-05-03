@@ -34,11 +34,6 @@ export default NextAuth({
       clientSecret: process.env.LINKEDIN_SECRET,
     }),
   ],
-
-  NEXTAUTH_SECRET: process.env.SECRET,
-
-  secret: process.env.SECRET,
-
   session: {
     strategy: 'jwt',
 
@@ -48,7 +43,7 @@ export default NextAuth({
   jwt: {},
 
   pages: {
-    signIn: '/signin',
+    signIn: '/login',
     // signOut: "/auth/signout",
   },
 
