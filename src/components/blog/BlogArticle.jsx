@@ -38,6 +38,7 @@ const BlogArticle = () => {
         titleTypographyProps={{
           component: 'h1',
           variant: 'h4',
+          fontSize: { xs: '1.4rem' },
         }}
         sx={{
           borderBottom: 1,
@@ -49,9 +50,6 @@ const BlogArticle = () => {
         } hearts · ${pageHits} views · ${timeAgoFormat(
           article?.publishedAt
         )}`}
-        titleTypographyProps={{
-          fontSize: { xs: '1.4rem' },
-        }}
         subheaderTypographyProps={{
           fontWeight: '500',
           letterSpacing: 1,
