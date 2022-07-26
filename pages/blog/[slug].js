@@ -203,6 +203,8 @@ export const getStaticProps = async ({ params }) => {
         })]: relevantArticles,
       },
     },
+
+    revalidate: 10
   };
 };
 
