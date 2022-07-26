@@ -28,7 +28,6 @@ const createComment = async (req, res) => {
       content,
       createdAt,
     });
-
     res.status(201).json(comment);
   } catch (error) {
     console.error(error);
